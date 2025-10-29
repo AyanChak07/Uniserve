@@ -1,0 +1,896 @@
+import { useState } from 'react';
+import { Film, Clock, Star, Trophy, Laugh, Music, Theater } from 'lucide-react';
+
+const Entertainment = () => {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('Oct 30');
+  const [selectedTime, setSelectedTime] = useState('7:00 PM');
+
+  const categories = [
+    { name: 'All', icon: <Film className="w-5 h-5" /> },
+    { name: 'Movies', icon: <Film className="w-5 h-5" /> },
+    { name: 'Sports', icon: <Trophy className="w-5 h-5" /> },
+    { name: 'Comedy', icon: <Laugh className="w-5 h-5" /> },
+    { name: 'Concerts', icon: <Music className="w-5 h-5" /> },
+    { name: 'Theater', icon: <Theater className="w-5 h-5" /> }
+  ];
+
+  const screenSeatCategories = {
+    economy: { price: 150, color: 'bg-green-500', rows: [0, 1] },
+    silver: { price: 200, color: 'bg-blue-500', rows: [2, 3, 4] },
+    platinum: { price: 300, color: 'bg-purple-500', rows: [5, 6, 7] }
+  };
+
+  const stadiumSeatCategories = {
+    vip: { price: 500, color: 'bg-purple-600' },
+    premium: { price: 350, color: 'bg-blue-500' },
+    standard: { price: 200, color: 'bg-green-500' }
+  };
+
+  const getSeatCategory = (row) => {
+    if (screenSeatCategories.economy.rows.includes(row)) return 'economy';
+    if (screenSeatCategories.silver.rows.includes(row)) return 'silver';
+    if (screenSeatCategories.platinum.rows.includes(row)) return 'platinum';
+    return 'economy';
+  };
+
+  const events = [
+    {
+      id: 1,
+      title: 'Inception',
+      category: 'Movies',
+      genre: 'Sci-Fi, Thriller',
+      rating: 8.8,
+      duration: '2h 28min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400',
+      showTimes: ['1:00 PM', '4:00 PM', '7:00 PM', '10:00 PM']
+    },
+    {
+      id: 2,
+      title: 'The Dark Knight',
+      category: 'Movies',
+      genre: 'Action, Crime',
+      rating: 9.0,
+      duration: '2h 32min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400',
+      showTimes: ['2:00 PM', '5:00 PM', '8:00 PM', '11:00 PM']
+    },
+    {
+      id: 3,
+      title: 'Interstellar',
+      category: 'Movies',
+      genre: 'Sci-Fi, Drama',
+      rating: 8.6,
+      duration: '2h 49min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400',
+      showTimes: ['12:30 PM', '4:30 PM', '7:30 PM', '10:30 PM']
+    },
+    {
+      id: 24,
+      title: 'Avengers: Endgame',
+      category: 'Movies',
+      genre: 'Action, Superhero',
+      rating: 8.4,
+      duration: '3h 01min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400',
+      showTimes: ['11:00 AM', '3:00 PM', '6:30 PM', '10:00 PM']
+    },
+    {
+      id: 25,
+      title: 'Jawan',
+      category: 'Movies',
+      genre: 'Action, Thriller',
+      rating: 7.9,
+      duration: '2h 49min',
+      language: 'Hindi',
+      image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400',
+      showTimes: ['12:00 PM', '3:30 PM', '7:00 PM', '10:30 PM']
+    },
+    {
+      id: 26,
+      title: 'The Shawshank Redemption',
+      category: 'Movies',
+      genre: 'Drama',
+      rating: 9.3,
+      duration: '2h 22min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400',
+      showTimes: ['1:00 PM', '4:00 PM', '7:00 PM', '10:00 PM']
+    },
+    {
+      id: 27,
+      title: 'Pathaan',
+      category: 'Movies',
+      genre: 'Action, Spy',
+      rating: 8.1,
+      duration: '2h 26min',
+      language: 'Hindi',
+      image: 'https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=400',
+      showTimes: ['11:30 AM', '3:00 PM', '6:30 PM', '10:00 PM']
+    },
+    {
+      id: 28,
+      title: 'The Godfather',
+      category: 'Movies',
+      genre: 'Crime, Drama',
+      rating: 9.2,
+      duration: '2h 55min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1574267432644-f68b8b170a4c?w=400',
+      showTimes: ['2:00 PM', '6:00 PM', '9:30 PM']
+    },
+    {
+      id: 29,
+      title: 'Pulp Fiction',
+      category: 'Movies',
+      genre: 'Crime, Drama',
+      rating: 8.9,
+      duration: '2h 34min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=400',
+      showTimes: ['1:30 PM', '5:00 PM', '8:30 PM']
+    },
+    {
+      id: 30,
+      title: '3 Idiots',
+      category: 'Movies',
+      genre: 'Comedy, Drama',
+      rating: 8.4,
+      duration: '2h 50min',
+      language: 'Hindi',
+      image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400',
+      showTimes: ['12:00 PM', '3:30 PM', '7:00 PM', '10:30 PM']
+    },
+    {
+      id: 31,
+      title: 'Oppenheimer',
+      category: 'Movies',
+      genre: 'Biography, Drama',
+      rating: 8.7,
+      duration: '3h 00min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1616530940355-351fabd9524b?w=400',
+      showTimes: ['11:00 AM', '3:00 PM', '7:00 PM']
+    },
+    {
+      id: 4,
+      title: 'IPL 2025 Final',
+      category: 'Sports',
+      genre: 'Cricket',
+      rating: 9.2,
+      duration: '4h 00min',
+      language: 'Hindi/English',
+      image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400',
+      showTimes: ['3:00 PM', '7:30 PM']
+    },
+    {
+      id: 5,
+      title: 'India vs Australia ODI',
+      category: 'Sports',
+      genre: 'Cricket',
+      rating: 8.9,
+      duration: '5h 00min',
+      language: 'Hindi/English',
+      image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=400',
+      showTimes: ['2:00 PM']
+    },
+    {
+      id: 6,
+      title: 'Premier League: Arsenal vs Chelsea',
+      category: 'Sports',
+      genre: 'Football',
+      rating: 8.7,
+      duration: '2h 00min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400',
+      showTimes: ['10:00 PM']
+    },
+    {
+      id: 7,
+      title: 'NBA Finals Live Screening',
+      category: 'Sports',
+      genre: 'Basketball',
+      rating: 8.5,
+      duration: '3h 00min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400',
+      showTimes: ['6:30 AM', '9:00 AM']
+    },
+    {
+      id: 8,
+      title: 'UFC Fight Night',
+      category: 'Sports',
+      genre: 'Mixed Martial Arts',
+      rating: 8.8,
+      duration: '4h 00min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=400',
+      showTimes: ['8:00 PM']
+    },
+    {
+      id: 9,
+      title: 'Stand-Up Comedy Night',
+      category: 'Comedy',
+      genre: 'Live Comedy',
+      rating: 8.5,
+      duration: '2h 00min',
+      language: 'Hindi',
+      image: 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=400',
+      showTimes: ['6:00 PM', '9:00 PM']
+    },
+    {
+      id: 10,
+      title: 'Kapil Sharma Live',
+      category: 'Comedy',
+      genre: 'Stand-Up Comedy',
+      rating: 8.9,
+      duration: '2h 30min',
+      language: 'Hindi',
+      image: 'https://images.unsplash.com/photo-1527224538127-2104bb71c51b?w=400',
+      showTimes: ['7:00 PM', '10:00 PM']
+    },
+    {
+      id: 11,
+      title: 'Comedy Circus Reunion',
+      category: 'Comedy',
+      genre: 'Comedy Show',
+      rating: 8.4,
+      duration: '2h 15min',
+      language: 'Hindi',
+      image: 'https://images.unsplash.com/photo-1516450137517-162bfbeb8dba?w=400',
+      showTimes: ['6:30 PM', '9:30 PM']
+    },
+    {
+      id: 12,
+      title: 'Open Mic Comedy Night',
+      category: 'Comedy',
+      genre: 'Stand-Up',
+      rating: 8.2,
+      duration: '1h 30min',
+      language: 'English/Hindi',
+      image: 'https://images.unsplash.com/photo-1522158637959-30385a09e0da?w=400',
+      showTimes: ['8:00 PM']
+    },
+    {
+      id: 13,
+      title: 'Improv Comedy Show',
+      category: 'Comedy',
+      genre: 'Improv',
+      rating: 8.6,
+      duration: '2h 00min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1513106580091-1d82408b8cd6?w=400',
+      showTimes: ['7:00 PM', '9:30 PM']
+    },
+    {
+      id: 14,
+      title: 'Rock Band Live Concert',
+      category: 'Concerts',
+      genre: 'Rock Music',
+      rating: 8.9,
+      duration: '3h 00min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400',
+      showTimes: ['7:00 PM']
+    },
+    {
+      id: 15,
+      title: 'AR Rahman Live in Concert',
+      category: 'Concerts',
+      genre: 'Bollywood Music',
+      rating: 9.3,
+      duration: '3h 30min',
+      language: 'Hindi',
+      image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400',
+      showTimes: ['6:30 PM']
+    },
+    {
+      id: 16,
+      title: 'EDM Night Festival',
+      category: 'Concerts',
+      genre: 'Electronic Dance',
+      rating: 8.7,
+      duration: '4h 00min',
+      language: 'Instrumental',
+      image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400',
+      showTimes: ['8:00 PM']
+    },
+    {
+      id: 17,
+      title: 'Classical Music Evening',
+      category: 'Concerts',
+      genre: 'Classical',
+      rating: 8.8,
+      duration: '2h 30min',
+      language: 'Instrumental',
+      image: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=400',
+      showTimes: ['6:00 PM']
+    },
+    {
+      id: 18,
+      title: 'Jazz Night Live',
+      category: 'Concerts',
+      genre: 'Jazz',
+      rating: 8.5,
+      duration: '2h 00min',
+      language: 'Instrumental',
+      image: 'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=400',
+      showTimes: ['7:30 PM', '10:00 PM']
+    },
+    {
+      id: 19,
+      title: 'Shakespeare Festival',
+      category: 'Theater',
+      genre: 'Drama',
+      rating: 8.4,
+      duration: '2h 30min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1503095396549-807759245b35?w=400',
+      showTimes: ['5:00 PM', '8:00 PM']
+    },
+    {
+      id: 20,
+      title: 'The Phantom of the Opera',
+      category: 'Theater',
+      genre: 'Musical',
+      rating: 9.1,
+      duration: '2h 45min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400',
+      showTimes: ['3:00 PM', '7:00 PM']
+    },
+    {
+      id: 21,
+      title: 'Mughal-e-Azam Musical',
+      category: 'Theater',
+      genre: 'Musical Drama',
+      rating: 8.9,
+      duration: '3h 00min',
+      language: 'Hindi',
+      image: 'https://images.unsplash.com/photo-1598558916394-e2f6e5ba6a84?w=400',
+      showTimes: ['6:00 PM']
+    },
+    {
+      id: 22,
+      title: 'Modern Dance Theatre',
+      category: 'Theater',
+      genre: 'Contemporary Dance',
+      rating: 8.6,
+      duration: '1h 45min',
+      language: 'Non-verbal',
+      image: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=400',
+      showTimes: ['5:30 PM', '8:30 PM']
+    },
+    {
+      id: 23,
+      title: 'Comedy Play: The Proposal',
+      category: 'Theater',
+      genre: 'Comedy Drama',
+      rating: 8.3,
+      duration: '2h 00min',
+      language: 'English',
+      image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=400',
+      showTimes: ['6:00 PM', '9:00 PM']
+    }
+  ];
+
+  const dates = ['Oct 29', 'Oct 30', 'Oct 31', 'Nov 1', 'Nov 2'];
+
+  const generateStadiumSeats = () => {
+    const seats = [];
+
+    // North Stand (Top) - 15 seats x 4 rows
+    for (let row = 0; row < 4; row++) {
+      const category = row < 2 ? 'vip' : 'premium';
+      for (let col = 0; col < 15; col++) {
+        seats.push({
+          id: `north-${row}-${col}`,
+          section: 'north',
+          row,
+          col,
+          category,
+          isBooked: Math.random() > 0.75
+        });
+      }
+    }
+
+    // South Stand (Bottom) - 15 seats x 4 rows
+    for (let row = 0; row < 4; row++) {
+      const category = row < 2 ? 'vip' : 'premium';
+      for (let col = 0; col < 15; col++) {
+        seats.push({
+          id: `south-${row}-${col}`,
+          section: 'south',
+          row,
+          col,
+          category,
+          isBooked: Math.random() > 0.75
+        });
+      }
+    }
+
+    // East Stand (Right) - 8 seats x 4 rows
+    for (let row = 0; row < 4; row++) {
+      const category = row < 2 ? 'premium' : 'standard';
+      for (let col = 0; col < 10; col++) {
+        seats.push({
+          id: `east-${row}-${col}`,
+          section: 'east',
+          row,
+          col,
+          category,
+          isBooked: Math.random() > 0.75
+        });
+      }
+    }
+
+    // West Stand (Left) - 8 seats x 4 rows
+    for (let row = 0; row < 4; row++) {
+      const category = row < 2 ? 'premium' : 'standard';
+      for (let col = 0; col < 10; col++) {
+        seats.push({
+          id: `west-${row}-${col}`,
+          section: 'west',
+          row,
+          col,
+          category,
+          isBooked: Math.random() > 0.75
+        });
+      }
+    }
+
+    return seats;
+  };
+
+  const generateScreenSeats = () => {
+    const seats = [];
+    const rows = 8;
+    const seatsPerRow = 10;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < seatsPerRow; col++) {
+        const seatId = `${row}-${col}`;
+        const category = getSeatCategory(row);
+        seats.push({
+          id: seatId,
+          row,
+          col,
+          category,
+          isBooked: Math.random() > 0.7
+        });
+      }
+    }
+    return seats;
+  };
+
+  const [screenSeats] = useState(generateScreenSeats());
+  const [stadiumSeats] = useState(generateStadiumSeats());
+
+  const filteredEvents = selectedCategory === 'All' 
+    ? events 
+    : events.filter(event => event.category === selectedCategory);
+
+  const isStadiumView = selectedMovie && selectedMovie.category === 'Sports';
+  const seats = isStadiumView ? stadiumSeats : screenSeats;
+  const seatCategories = isStadiumView ? stadiumSeatCategories : screenSeatCategories;
+
+  const toggleSeat = (seatId, isBooked) => {
+    if (isBooked) return;
+    
+    if (selectedSeats.includes(seatId)) {
+      setSelectedSeats(selectedSeats.filter(id => id !== seatId));
+    } else {
+      setSelectedSeats([...selectedSeats, seatId]);
+    }
+  };
+
+  const calculateTotal = () => {
+    return selectedSeats.reduce((total, seatId) => {
+      const seat = seats.find(s => s.id === seatId);
+      return total + seatCategories[seat.category].price;
+    }, 0);
+  };
+
+  const getSeatColor = (seat) => {
+    if (seat.isBooked) return 'bg-gray-400 cursor-not-allowed';
+    if (selectedSeats.includes(seat.id)) return 'bg-yellow-400';
+    return seatCategories[seat.category].color;
+  };
+
+  const handleBooking = () => {
+    if (selectedSeats.length === 0) {
+      alert('Please select at least one seat');
+      return;
+    }
+    
+    alert(`Booking Confirmed!\nEvent: ${selectedMovie.title}\nSeats: ${selectedSeats.length}\nTotal: ₹${calculateTotal()}`);
+    setSelectedSeats([]);
+    setSelectedMovie(null);
+  };
+
+  if (!selectedMovie) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-3">Entertainment Hub</h1>
+            <p className="text-lg text-gray-600">Book tickets for movies, sports, concerts, and more</p>
+          </div>
+
+          <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
+            {categories.map((category) => (
+              <button
+                key={category.name}
+                onClick={() => setSelectedCategory(category.name)}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-colors ${
+                  selectedCategory === category.name
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                }`}
+              >
+                {category.icon}
+                {category.name}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredEvents.map((event) => (
+              <div key={event.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                <img src={event.image} alt={event.title} className="w-full h-64 object-cover" />
+                <div className="p-6">
+                  <div className="mb-2">
+                    <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+                      {event.category}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{event.title}</h3>
+                  <p className="text-gray-600 mb-4">{event.genre}</p>
+                  
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                      <span className="font-semibold">{event.rating}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-gray-600">
+                      <Clock className="w-4 h-4" />
+                      <span className="text-sm">{event.duration}</span>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <span className="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+                      {event.language}
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => setSelectedMovie(event)}
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition-colors"
+                  >
+                    Book Tickets
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {filteredEvents.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">No events found in this category</p>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4">
+        <button
+          onClick={() => {
+            setSelectedMovie(null);
+            setSelectedSeats([]);
+          }}
+          className="mb-6 text-blue-600 hover:text-blue-700 font-medium"
+        >
+          ← Back to Events
+        </button>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">{selectedMovie.title}</h2>
+                  <p className="text-gray-600">{selectedMovie.genre}</p>
+                </div>
+                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+                  {selectedMovie.category}
+                </span>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-3">Select Date</label>
+                <div className="flex gap-3 overflow-x-auto">
+                  {dates.map((date) => (
+                    <button
+                      key={date}
+                      onClick={() => setSelectedDate(date)}
+                      className={`px-6 py-3 rounded-xl font-medium whitespace-nowrap transition-colors ${
+                        selectedDate === date
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {date}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-8">
+                <label className="block text-sm font-medium text-gray-700 mb-3">Select Show Time</label>
+                <div className="flex gap-3 flex-wrap">
+                  {selectedMovie.showTimes.map((time) => (
+                    <button
+                      key={time}
+                      onClick={() => setSelectedTime(time)}
+                      className={`px-6 py-3 rounded-xl font-medium transition-colors ${
+                        selectedTime === time
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {time}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mb-6 p-4 bg-gray-50 rounded-xl">
+                <h3 className="font-semibold text-gray-900 mb-3">Seat Categories</h3>
+                {isStadiumView ? (
+                  <div className="flex gap-6 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-purple-600 rounded"></div>
+                      <span className="text-sm">VIP - ₹500</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-blue-500 rounded"></div>
+                      <span className="text-sm">Premium - ₹350</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-green-500 rounded"></div>
+                      <span className="text-sm">Standard - ₹200</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-yellow-400 rounded"></div>
+                      <span className="text-sm">Selected</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-gray-400 rounded"></div>
+                      <span className="text-sm">Booked</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-6 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-green-500 rounded"></div>
+                      <span className="text-sm">Economy - ₹150</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-blue-500 rounded"></div>
+                      <span className="text-sm">Silver - ₹200</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-purple-500 rounded"></div>
+                      <span className="text-sm">Platinum - ₹300</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-yellow-400 rounded"></div>
+                      <span className="text-sm">Selected</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-gray-400 rounded"></div>
+                      <span className="text-sm">Booked</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {isStadiumView ? (
+                <div className="py-8">
+                  <div className="max-w-4xl mx-auto">
+                    
+                    {/* NORTH STAND */}
+                    <div className="mb-4">
+                      <p className="text-center font-bold text-gray-900 mb-2">NORTH STAND</p>
+                      <div className="space-y-1">
+                        {[0, 1, 2, 3].map(rowIdx => (
+                          <div key={rowIdx} className="flex justify-center gap-1">
+                            {stadiumSeats.filter(s => s.section === 'north' && s.row === rowIdx).map(seat => (
+                              <button
+                                key={seat.id}
+                                onClick={() => toggleSeat(seat.id, seat.isBooked)}
+                                disabled={seat.isBooked}
+                                className={`w-7 h-7 rounded ${getSeatColor(seat)} transition-colors hover:opacity-80`}
+                                title={`${seat.category.toUpperCase()} - ₹${seatCategories[seat.category].price}`}
+                              />
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* MIDDLE SECTION */}
+                    <div className="flex items-center justify-center gap-4 my-6">
+                      
+                      {/* WEST STAND */}
+                      <div className="flex flex-col items-center">
+                        <p className="font-bold text-gray-900 mb-2 text-sm" style={{writingMode: 'vertical-rl', transform: 'rotate(180deg)'}}>WEST</p>
+                        <div className="space-y-1">
+                          {[0, 1, 2, 3].map(rowIdx => (
+                            <div key={rowIdx} className="flex gap-1">
+                              {stadiumSeats.filter(s => s.section === 'west' && s.row === rowIdx).slice(0, 8).map(seat => (
+                                <button
+                                  key={seat.id}
+                                  onClick={() => toggleSeat(seat.id, seat.isBooked)}
+                                  disabled={seat.isBooked}
+                                  className={`w-7 h-7 rounded ${getSeatColor(seat)} transition-colors hover:opacity-80`}
+                                  title={`${seat.category.toUpperCase()} - ₹${seatCategories[seat.category].price}`}
+                                />
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* PLAYING FIELD */}
+                      <div className="w-80 h-80 bg-gradient-to-br from-green-500 to-green-700 rounded-3xl flex items-center justify-center border-4 border-white shadow-2xl">
+                        <div className="text-center text-white">
+                          <p className="text-6xl mb-3">⚽</p>
+                          <p className="font-bold text-2xl">PLAYING</p>
+                          <p className="font-bold text-2xl">FIELD</p>
+                        </div>
+                      </div>
+
+                      {/* EAST STAND */}
+                      <div className="flex flex-col items-center">
+                        <p className="font-bold text-gray-900 mb-2 text-sm" style={{writingMode: 'vertical-rl'}}>EAST</p>
+                        <div className="space-y-1">
+                          {[0, 1, 2, 3].map(rowIdx => (
+                            <div key={rowIdx} className="flex gap-1">
+                              {stadiumSeats.filter(s => s.section === 'east' && s.row === rowIdx).slice(0, 8).map(seat => (
+                                <button
+                                  key={seat.id}
+                                  onClick={() => toggleSeat(seat.id, seat.isBooked)}
+                                  disabled={seat.isBooked}
+                                  className={`w-7 h-7 rounded ${getSeatColor(seat)} transition-colors hover:opacity-80`}
+                                  title={`${seat.category.toUpperCase()} - ₹${seatCategories[seat.category].price}`}
+                                />
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* SOUTH STAND */}
+                    <div className="mt-4">
+                      <div className="space-y-1 mb-2">
+                        {[0, 1, 2, 3].map(rowIdx => (
+                          <div key={rowIdx} className="flex justify-center gap-1">
+                            {stadiumSeats.filter(s => s.section === 'south' && s.row === rowIdx).map(seat => (
+                              <button
+                                key={seat.id}
+                                onClick={() => toggleSeat(seat.id, seat.isBooked)}
+                                disabled={seat.isBooked}
+                                className={`w-7 h-7 rounded ${getSeatColor(seat)} transition-colors hover:opacity-80`}
+                                title={`${seat.category.toUpperCase()} - ₹${seatCategories[seat.category].price}`}
+                              />
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-center font-bold text-gray-900">SOUTH STAND</p>
+                    </div>
+
+                    <p className="text-center text-gray-600 text-sm mt-6">🏟️ Stadium View - Seats arranged around the playing field</p>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="mb-8">
+                    <div className="bg-gray-300 h-2 rounded-full mb-2"></div>
+                    <p className="text-center text-sm text-gray-600">Screen</p>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <div className="inline-block min-w-full">
+                      {Array.from({ length: 8 }).map((_, rowIndex) => (
+                        <div key={rowIndex} className="flex gap-2 mb-2 justify-center">
+                          <span className="w-8 text-center text-sm font-medium text-gray-600">
+                            {String.fromCharCode(65 + rowIndex)}
+                          </span>
+                          {screenSeats
+                            .filter(seat => seat.row === rowIndex)
+                            .map((seat) => (
+                              <button
+                                key={seat.id}
+                                onClick={() => toggleSeat(seat.id, seat.isBooked)}
+                                disabled={seat.isBooked}
+                                className={`w-8 h-8 rounded-t-lg ${getSeatColor(seat)} transition-colors hover:opacity-80`}
+                                title={`${seat.category.toUpperCase()} - ₹${seatCategories[seat.category].price}`}
+                              />
+                            ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-4">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">Booking Summary</h3>
+              
+              <div className="space-y-3 mb-6">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Event</span>
+                  <span className="font-medium">{selectedMovie.title}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Category</span>
+                  <span className="font-medium">{selectedMovie.category}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Date</span>
+                  <span className="font-medium">{selectedDate}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Time</span>
+                  <span className="font-medium">{selectedTime}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Seats</span>
+                  <span className="font-medium">{selectedSeats.length}</span>
+                </div>
+              </div>
+
+              <div className="border-t pt-4 mb-6">
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-bold text-gray-900">Total</span>
+                  <span className="text-2xl font-bold text-blue-600">₹{calculateTotal()}</span>
+                </div>
+              </div>
+
+              <button
+                onClick={handleBooking}
+                disabled={selectedSeats.length === 0}
+                className={`w-full font-semibold py-4 rounded-xl transition-colors ${
+                  selectedSeats.length > 0
+                    ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {selectedSeats.length > 0 ? 'Confirm Booking' : 'Select Seats'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Entertainment;
