@@ -42,6 +42,20 @@ const UserSchema = new mongoose.Schema({
     },
     address: String
   },
+  // NEW FIELDS FOR EMAIL VERIFICATION
+  isEmailVerified: {
+    type: Boolean,
+    default: false
+  },
+  emailVerificationOTP: {
+    type: String,
+    select: false
+  },
+  emailVerificationOTPExpires: {
+    type: Date,
+    select: false
+  },
+  // END NEW FIELDS
   createdAt: {
     type: Date,
     default: Date.now
