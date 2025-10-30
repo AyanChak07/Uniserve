@@ -6,10 +6,17 @@ const TicketSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  event: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Event',
-    required: true
+  eventInfo: {
+    title: { type: String, required: true },
+    category: { type: String, required: true },
+    date: { type: String, required: true },       // or Date type if you prefer
+    time: { type: String, required: true },
+    ticketTypes: [{
+      type: { type: String, required: true },
+      price: { type: Number, required: true },
+      available: { type: Number, required: true }
+    }],
+    image: { type: String }
   },
   ticketType: {
     type: String,

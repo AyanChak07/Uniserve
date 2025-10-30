@@ -63,33 +63,26 @@ exports.getEvent = async (req, res, next) => {
 // @access  Private
 exports.bookTicket = async (req, res, next) => {
   try {
-    const { eventId, ticketType, quantity } = req.body;
+    const { eventInfo, ticketType, quantity } = req.body;
 
-    const event = await Event.findById(eventId);
-    
-    if (!event) {
-      return res.status(404).json({
-        success: false,
-        message: 'Event not found'
-      });
+    if (!eventInfo) {
+      return res.status(400).json({ success: false, message: "eventInfo required" });
     }
-
-    const ticketTypeData = event.ticketTypes.find(t => t.type === ticketType);
     
+    const ticketTypeData = eventInfo.ticketTypes?.find(t => t.type === ticketType);
+
     if (!ticketTypeData || ticketTypeData.available < quantity) {
-      return res.status(400).json({
-        success: false,
-        message: 'Not enough tickets available'
-      });
+      return res.status(400).json({ success: false, message: "Not enough tickets available" });
     }
 
     const pricePerTicket = ticketTypeData.price;
     const total = pricePerTicket * quantity;
+
     const bookingId = `BK${Date.now()}${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
 
     const ticket = await Ticket.create({
       user: req.user.id,
-      event: eventId,
+      eventInfo,
       ticketType,
       quantity,
       pricePerTicket,
@@ -97,13 +90,10 @@ exports.bookTicket = async (req, res, next) => {
       bookingId
     });
 
-    // Update available tickets
-    ticketTypeData.available -= quantity;
-    await event.save();
+    // No event.save() here
 
     const populatedTicket = await Ticket.findById(ticket._id)
-      .populate('event')
-      .populate('user', 'name email phone');
+      .populate('user', 'name email phone'); // only populate user
 
     res.status(201).json({
       success: true,
@@ -114,13 +104,14 @@ exports.bookTicket = async (req, res, next) => {
   }
 };
 
+
 // @desc    Get user tickets
 // @route   GET /api/entertainment/tickets
 // @access  Private
 exports.getUserTickets = async (req, res, next) => {
   try {
     const tickets = await Ticket.find({ user: req.user.id })
-      .populate('event')
+      .populate('user', 'name email phone')
       .sort('-createdAt');
 
     res.status(200).json({
