@@ -632,8 +632,17 @@ const Entertainment = () => {
   const [lastBooking, setLastBooking] = useState(null);
   const [toast, setToast] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showBookingPopup, setShowBookingPopup] = useState(false); // NEW STATE
   const audioRef = useRef(null);
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (bookingStep === "success" && lastBooking) {
+      setShowBookingPopup(true);
+    } else {
+      setShowBookingPopup(false);
+    }
+  }, [bookingStep, lastBooking]);
 
   const [screenSeats] = useState(generateScreenSeats());
   const [stadiumSeats] = useState(generateStadiumSeats());
@@ -678,29 +687,59 @@ const Entertainment = () => {
     setBookingStep("payment");
   };
 
-async function finishPayment() {
-  setLoading(true);
-  try {
-    const eventInfo = {
-      title: selectedMovie.title,
-      category: selectedMovie.category,
-      date: selectedDate,
-      time: selectedTime,
-      ticketTypes: selectedMovie.ticketTypes || [],
-      image: selectedMovie.image,
-    };
+  async function finishPayment() {
+    setLoading(true);
+    try {
+      const eventInfo = {
+        title: selectedMovie.title,
+        category: selectedMovie.category,
+        date: selectedDate,
+        time: selectedTime,
+        ticketTypes: selectedMovie.ticketTypes || [],
+        image: selectedMovie.image,
+      };
 
-    if (isStadiumView) {
-      const seatsByCategory = selectedSeats.reduce((acc, seatId) => {
-        const seat = seats.find(s => s.id === seatId);
-        if (!seat) return acc;
-        if (!acc[seat.category]) acc[seat.category] = [];
-        acc[seat.category].push(seatId);
-        return acc;
-      }, {});
+      if (isStadiumView) {
+        const seatsByCategory = selectedSeats.reduce((acc, seatId) => {
+          const seat = seats.find(s => s.id === seatId);
+          if (!seat) return acc;
+          if (!acc[seat.category]) acc[seat.category] = [];
+          acc[seat.category].push(seatId);
+          return acc;
+        }, {});
 
-      for (const [ticketType, seatIds] of Object.entries(seatsByCategory)) {
-        const quantity = seatIds.length;
+        for (const [ticketType, seatIds] of Object.entries(seatsByCategory)) {
+          const quantity = seatIds.length;
+
+          const res = await fetch(`${API_BASE_URL}/tickets`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
+            },
+            body: JSON.stringify({
+              eventInfo,
+              ticketType,
+              quantity,
+            }),
+          });
+
+          const resJson = await res.json();
+          if (!res.ok) throw new Error(resJson.message || "Failed to book ticket.");
+
+          const newBooking = resJson.data;
+
+          await fetch(`${API_BASE_URL}/tickets/${newBooking._id}/payment`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
+            },
+            body: JSON.stringify({ paymentId: `pay_${Date.now()}`, paymentStatus: "completed" }),
+          });
+        }
+      } else {
+        const ticketType = [...new Set(selectedSeats.map(seatId => seats.find(s => s.id === seatId).category))][0];
 
         const res = await fetch(`${API_BASE_URL}/tickets`, {
           method: "POST",
@@ -711,7 +750,7 @@ async function finishPayment() {
           body: JSON.stringify({
             eventInfo,
             ticketType,
-            quantity,
+            quantity: selectedSeats.length,
           }),
         });
 
@@ -729,73 +768,28 @@ async function finishPayment() {
           body: JSON.stringify({ paymentId: `pay_${Date.now()}`, paymentStatus: "completed" }),
         });
       }
-    } else {
-      const ticketType = [...new Set(selectedSeats.map(seatId => seats.find(s => s.id === seatId).category))][0];
 
-      const res = await fetch(`${API_BASE_URL}/tickets`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
-        },
-        body: JSON.stringify({
-          eventInfo,
-          ticketType,
-          quantity: selectedSeats.length,
-        }),
+      setLoading(false);
+      setBookingStep("success");
+      setLastBooking({
+        event: selectedMovie,
+        selectedSeats: selectedSeatLabels,
+        selectedDate,
+        selectedTime,
+        total: calculateTotal(),
       });
-
-      const resJson = await res.json();
-      if (!res.ok) throw new Error(resJson.message || "Failed to book ticket.");
-
-      const newBooking = resJson.data;
-
-      await fetch(`${API_BASE_URL}/tickets/${newBooking._id}/payment`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
-        },
-        body: JSON.stringify({ paymentId: `pay_${Date.now()}`, paymentStatus: "completed" }),
-      });
+      setShowConfetti(true);
+      if (audioRef.current) audioRef.current.play();
+      
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 3500);
+      
+    } catch (error) {
+      setLoading(false);
+      alert("Booking failed: " + error.message);
     }
-
-    // Payment successful - update all states at once
-    setLoading(false);
-    
-    const bookingData = {
-      event: selectedMovie,
-      selectedSeats: selectedSeatLabels,
-      selectedDate,
-      selectedTime,
-      total: calculateTotal(),
-    };
-    
-    // Set all states together to prevent multiple re-renders
-    setLastBooking(bookingData);
-    setBookingStep("success");
-    setShowConfetti(true);
-    setToast({
-      msg: `🎫 Booking confirmed for ${selectedMovie.title}.`,
-    });
-    
-    // Play sound
-    if (audioRef.current) audioRef.current.play();
-    
-    // Hide toast and confetti after 3.5 seconds (popup stays)
-    setTimeout(() => {
-      setToast(null);
-      setShowConfetti(false);
-    }, 3500);
-    
-  } catch (error) {
-    setLoading(false);
-    setToast({ msg: "Booking failed: " + error.message, error: true });
-    setTimeout(() => setToast(null), 3000);
   }
-}
-
-
 
 
   useEffect(() => {
@@ -845,112 +839,107 @@ async function finishPayment() {
     </div>
   );
 
-// TOAST - Shows briefly at top before popup
-const Toast = () => toast ? (
-  <div className="fixed top-4 left-0 right-0 flex justify-center z-[8000] animate-fade-in-down pointer-events-none px-4">
-    <div className={`rounded-xl px-6 py-3 font-semibold max-w-md w-full shadow-2xl text-sm backdrop-blur-sm
-      ${toast.error ? 'bg-red-600 text-white' : 'bg-gradient-to-r from-green-600 to-emerald-600 text-white'}`}>
-      <div className="flex items-center gap-2">
-        <CheckCircle className="w-5 h-5 flex-shrink-0" />
-        <span className="flex-1">{toast.msg}</span>
-      </div>
-    </div>
-  </div>
-) : null;
+  // REMOVED - No toast needed
+  const Toast = () => null;
 
-// BOOKING SUMMARY - Shows after toast, perfectly positioned
-const BookingSummary = () => lastBooking ? (
-  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000] flex items-center justify-center p-4 animate-fade-in">
-    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm max-h-[85vh] overflow-y-auto animate-scale-in">
-      {/* Header - Won't get cut */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-5 text-center relative">
-        <div className="bg-white/20 backdrop-blur-md w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-2">
-          <CheckCircle className="text-white w-9 h-9" strokeWidth={3} />
-        </div>
-        <h2 className="text-xl font-bold text-white leading-tight">Booking Confirmed!</h2>
-        <p className="text-blue-100 text-xs mt-1">Your tickets are ready 🎉</p>
-      </div>
 
-      {/* Compact Content */}
-      <div className="p-5">
-        {/* Event Info */}
-        <div className="flex gap-3 mb-4">
-          <img 
-            src={lastBooking.event.image} 
-            alt={lastBooking.event.title} 
-            className="w-20 h-28 object-cover rounded-lg shadow-md flex-shrink-0" 
-          />
-          <div className="flex-1 min-w-0">
-            <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-2">{lastBooking.event.title}</h3>
-            <div className="space-y-1.5 text-xs text-gray-600">
-              <div className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span className="font-medium">{lastBooking.selectedDate}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-green-600 flex-shrink-0" />
-                <span className="font-medium">{lastBooking.selectedTime}</span>
-              </div>
+  // BOOKING SUMMARY - Shows after toast, perfectly positioned
+  const BookingSummary = () => {
+    if (!showBookingPopup) return null;
+    
+    return (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000] flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm max-h-[85vh] overflow-y-auto">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-5 text-center relative">
+            <div className="bg-white/20 backdrop-blur-md w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-2">
+              <CheckCircle className="text-white w-9 h-9" strokeWidth={3} />
             </div>
+            <h2 className="text-xl font-bold text-white leading-tight">Booking Confirmed!</h2>
+            <p className="text-blue-100 text-xs mt-1">Your tickets are ready 🎉</p>
           </div>
-        </div>
 
-        {/* Ticket Details */}
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-4 border-2 border-blue-100">
-          <div className="flex justify-between items-start mb-3">
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Seats</p>
-              <p className="font-bold text-gray-900 text-sm">{lastBooking.selectedSeats}</p>
+          {/* Content */}
+          <div className="p-5">
+            {/* Event Info */}
+            <div className="flex gap-3 mb-4">
+              <img 
+                src={lastBooking.event.image} 
+                alt={lastBooking.event.title} 
+                className="w-20 h-28 object-cover rounded-lg shadow-md flex-shrink-0" 
+              />
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base font-bold text-gray-900 mb-2 line-clamp-2">{lastBooking.event.title}</h3>
+                <div className="space-y-1.5 text-xs text-gray-600">
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span className="font-medium">{lastBooking.selectedDate}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="w-4 h-4 text-green-600 flex-shrink-0" />
+                    <span className="font-medium">{lastBooking.selectedTime}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-gray-500 mb-1">Total Amount</p>
-              <p className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                ₹{lastBooking.total}
+
+            {/* Ticket Details */}
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 mb-4 border-2 border-blue-100">
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Seats</p>
+                  <p className="font-bold text-gray-900 text-sm">{lastBooking.selectedSeats}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-gray-500 mb-1">Total Amount</p>
+                  <p className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    ₹{lastBooking.total}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Mini Barcode */}
+              <div className="border-t border-dashed border-gray-300 pt-3">
+                <div className="bg-white h-10 rounded flex items-center justify-center shadow-sm">
+                  <div className="flex gap-0.5">
+                    {[...Array(22)].map((_, i) => (
+                      <div key={i} className="w-1 bg-gray-800 rounded" style={{ height: `${Math.random() * 25 + 10}px` }}></div>
+                    ))}
+                  </div>
+                </div>
+                <p className="text-center text-xs text-gray-500 mt-2">Scan at venue entrance</p>
+              </div>
+            </div>
+
+            {/* Success Message */}
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg p-3 mb-4 text-center">
+              <p className="text-green-800 font-semibold text-sm flex items-center justify-center gap-2">
+                <span className="text-lg">🍿</span>
+                Enjoy your show!
+                <span className="text-lg">🎬</span>
               </p>
             </div>
-          </div>
-          
-          {/* Mini Barcode */}
-          <div className="border-t border-dashed border-gray-300 pt-3">
-            <div className="bg-white h-10 rounded flex items-center justify-center shadow-sm">
-              <div className="flex gap-0.5">
-                {[...Array(22)].map((_, i) => (
-                  <div key={i} className="w-1 bg-gray-800 rounded" style={{ height: `${Math.random() * 25 + 10}px` }}></div>
-                ))}
-              </div>
-            </div>
-            <p className="text-center text-xs text-gray-500 mt-2">Scan at venue entrance</p>
+
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                setShowBookingPopup(false);
+                setLastBooking(null);
+                setBookingStep("main");
+                setSelectedSeats([]);
+                setSelectedMovie(null);
+              }}
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              Close
+            </button>
           </div>
         </div>
-
-        {/* Success Message */}
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg p-3 mb-4 text-center">
-          <p className="text-green-800 font-semibold text-sm flex items-center justify-center gap-2">
-            <span className="text-lg">🍿</span>
-            Enjoy your show!
-            <span className="text-lg">🎬</span>
-          </p>
-        </div>
-
-        {/* Close Button */}
-        <button
-          onClick={() => {
-            setLastBooking(null);
-            setBookingStep("main");
-            setSelectedSeats([]);
-            setSelectedMovie(null);
-          }}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
-        >
-          Close
-        </button>
       </div>
-    </div>
-  </div>
-) : null;
-
+    );
+  };
 
 
   return (
