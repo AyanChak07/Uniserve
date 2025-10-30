@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { Link } from 'react-router-dom'
 import Input from '../ui/input'
 import Button from '../ui/button'
+import OTPVerification from './OTPVerification'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +13,8 @@ const Register = () => {
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { register } = useAuth()
-  const navigate = useNavigate()
+  const [showOTPVerification, setShowOTPVerification] = useState(false)
+  const [userId, setUserId] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -22,15 +22,40 @@ const Register = () => {
     setLoading(true)
 
     try {
-      await register(formData)
-      navigate('/dashboard')
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed')
+      }
+
+      // Show OTP verification screen
+      setUserId(data.userId)
+      setShowOTPVerification(true)
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed')
+      setError(err.message)
     } finally {
       setLoading(false)
     }
   }
 
+  // If OTP verification is needed, show OTP screen
+  if (showOTPVerification) {
+    return (
+      <OTPVerification
+        userId={userId}
+        email={formData.email}
+        onBack={() => setShowOTPVerification(false)}
+      />
+    )
+  }
+
+  // Otherwise show registration form
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
