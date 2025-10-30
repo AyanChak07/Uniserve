@@ -1,12 +1,21 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
-// Create transporter
+// Create transporter with better configuration for production
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465, // Use 465 instead of 587 for better reliability
+  secure: true, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
+  connectionTimeout: 10000, // 10 seconds
+  socketTimeout: 10000, // 10 seconds
+  maxConnections: 5,
+  maxMessages: 100,
+  rateDelta: 1000,
+  rateLimit: 5,
 });
 
 // Generate 6-digit OTP
@@ -14,12 +23,12 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-// Send OTP Email
-const sendOTPEmail = async (email, otp, name = "User") => {
+// Send OTP Email with retry logic
+const sendOTPEmail = async (email, otp, name = 'User') => {
   const mailOptions = {
     from: `"uniServe" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Email Verification - uniServe",
+    subject: 'Email Verification - uniServe',
     html: `
       <!DOCTYPE html>
       <html>
@@ -55,12 +64,26 @@ const sendOTPEmail = async (email, otp, name = "User") => {
     `,
   };
 
-  try {
-    await transporter.sendMail(mailOptions);
-    return true;
-  } catch (error) {
-    console.error("Email sending error:", error);
-    throw new Error("Failed to send OTP email");
+  let attempts = 0;
+  const maxAttempts = 2;
+
+  while (attempts < maxAttempts) {
+    try {
+      console.log(`Sending OTP email to ${email} (Attempt ${attempts + 1}/${maxAttempts})`);
+      const result = await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully:', result.messageId);
+      return true;
+    } catch (error) {
+      attempts++;
+      console.error(`Email sending error (Attempt ${attempts}):`, error.message);
+      
+      if (attempts < maxAttempts) {
+        // Wait 2 seconds before retrying
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      } else {
+        throw new Error('Failed to send OTP email after 2 attempts');
+      }
+    }
   }
 };
 
