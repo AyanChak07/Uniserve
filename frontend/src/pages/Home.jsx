@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Car, UtensilsCrossed, Ticket, ArrowRight, Clock, Shield, Star, Zap } from 'lucide-react'
+import { Car, UtensilsCrossed, Ticket, ArrowRight, Clock, Shield, Star, Zap, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 
 const Home = () => {
   const services = [
@@ -94,8 +94,6 @@ const Home = () => {
                 Sign In
               </Link>
             </div>
-
-            
           </div>
         </div>
       </section>
@@ -211,6 +209,108 @@ const Home = () => {
           </Link>
         </div>
       </section>
+
+      {/* Footer Section */}
+      <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
+            {/* Brand Section */}
+            <div className="md:col-span-1">
+              <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                uniServe
+              </h3>
+              <p className="text-gray-400 mb-6 leading-relaxed">
+                Your one-stop platform for all daily service needs. Simplifying life, one service at a time.
+              </p>
+              <div className="flex gap-4">
+                <a href="#" className="bg-gray-800 p-3 rounded-lg hover:bg-blue-600 transition-colors">
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a href="#" className="bg-gray-800 p-3 rounded-lg hover:bg-blue-400 transition-colors">
+                  <Twitter className="w-5 h-5" />
+                </a>
+                <a href="#" className="bg-gray-800 p-3 rounded-lg hover:bg-pink-600 transition-colors">
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a href="#" className="bg-gray-800 p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-lg font-bold mb-4 text-white">Services</h4>
+              <ul className="space-y-3">
+                <li><Link to="/transport" className="text-gray-400 hover:text-white transition-colors">Transport</Link></li>
+                <li><Link to="/food" className="text-gray-400 hover:text-white transition-colors">Food Delivery</Link></li>
+                <li><Link to="/entertainment" className="text-gray-400 hover:text-white transition-colors">Entertainment</Link></li>
+                <li><span className="text-gray-500">Medical (Coming Soon)</span></li>
+                <li><span className="text-gray-500">Household (Coming Soon)</span></li>
+                <li><span className="text-gray-500">Shopping (Coming Soon)</span></li>
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h4 className="text-lg font-bold mb-4 text-white">Company</h4>
+              <ul className="space-y-3">
+                <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About Us</Link></li>
+                <li><Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="text-gray-400 hover:text-white transition-colors">Terms of Service</Link></li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="text-lg font-bold mb-4 text-white">Contact Us</h4>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-gray-400">Email</p>
+                    <a href="mailto:ayanalteracc2@gmail.com" className="text-white hover:text-blue-400 transition-colors break-all">
+                      ayanalteracc2@gmail.com
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-gray-400">Phone</p>
+                    <a href="tel:+917003888896" className="text-white hover:text-green-400 transition-colors">
+                      +91 7003888896
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-red-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-gray-400">Address</p>
+                    <p className="text-white">
+                      KP - 6, School of Computer Engineering,<br />
+                      KIIT University
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="border-t border-gray-700 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-gray-400 text-sm">
+                © 2025 uniServe. All rights reserved. Made with ❤️ for simplifying your life.
+              </p>
+              <div className="flex gap-6 text-sm">
+                <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">Privacy</Link>
+                <Link to="/terms" className="text-gray-400 hover:text-white transition-colors">Terms</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

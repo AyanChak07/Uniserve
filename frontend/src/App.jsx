@@ -10,6 +10,9 @@ import Transport from './pages/Transport'
 import Food from './pages/Food'
 import Entertainment from './pages/Entertainment'
 import Profile from './pages/Profile'
+import About from './pages/About'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import Terms from './pages/Terms'
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<Terms />} />
             
             <Route path="/dashboard" element={
               <ProtectedRoute>
