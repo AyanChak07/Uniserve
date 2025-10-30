@@ -133,21 +133,21 @@ const events = [
       { type: "platinum", price: 300, available: 40 }
     ]
   },
-  {
-    id: 27,
-    title: 'Pathaan',
-    category: 'Movies',
-    genre: 'Action, Spy',
-    rating: 8.1,
-    duration: '2h 26min',
-    language: 'Hindi',
-    image: 'https://i.pinimg.com/736x/4d/47/3d/4d473d1edded9306190ec66c0c1c4628.jpg',
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
+  // {
+  //   id: 27,
+  //   title: 'Pathaan',
+  //   category: 'Movies',
+  //   genre: 'Action, Spy',
+  //   rating: 8.1,
+  //   duration: '2h 26min',
+  //   language: 'Hindi',
+  //   image: 'https://i.pinimg.com/736x/4d/47/3d/4d473d1edded9306190ec66c0c1c4628.jpg',
+  //   ticketTypes: [
+  //     { type: "economy", price: 150, available: 100 },
+  //     { type: "silver", price: 200, available: 60 },
+  //     { type: "platinum", price: 300, available: 40 }
+  //   ]
+  // },
   {
     id: 28,
     title: 'The Godfather',
