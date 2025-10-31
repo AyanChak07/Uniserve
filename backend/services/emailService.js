@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
-  connectionTimeout: 15000, // Increased from 10000 to 15000
-  socketTimeout: 15000, // Increased from 10000 to 15000
+  connectionTimeout: 30000,
+  socketTimeout: 30000,
   maxConnections: 3, // Reduced from 5 to 3
   maxMessages: 50, // Reduced from 100 to 50
   rateDelta: 2000, // Increased from 1000 to 2000
@@ -20,12 +20,10 @@ const transporter = nodemailer.createTransport({
 
 // Verify transporter connection
 transporter.verify((error, success) => {
-  if (error) {
-    console.log('Transporter verification error:', error);
-  } else {
-    console.log('✅ Transporter is ready for sending emails');
-  }
+  if (error) console.log('Transporter error:', error);
+  else console.log('Transporter ready for sending');
 });
+
 
 // Generate 6-digit OTP
 const generateOTP = () => {
