@@ -6,9 +6,9 @@ const Event = require('../models/Event');
 
 dotenv.config();
 
-// 15 Vehicles with variety
+// Add this VEHICLES ARRAY to seedData.js
 const vehicles = [
-  // Bikes
+  // Bikes (3)
   {
     type: 'bike',
     model: 'Honda Activa 6G',
@@ -43,7 +43,7 @@ const vehicles = [
     image: 'https://images.unsplash.com/photo-1558981033-6f4d0d0b0c3f?w=400'
   },
 
-  // Cars
+  // Cars (5)
   {
     type: 'car',
     model: 'Maruti Swift',
@@ -100,7 +100,7 @@ const vehicles = [
     image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400'
   },
 
-  // SUVs
+  // SUVs (7)
   {
     type: 'suv',
     model: 'Toyota Innova Crysta',
@@ -179,6 +179,7 @@ const vehicles = [
     image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=400'
   }
 ];
+
 
 // 25 Restaurants with diverse cuisines
 const restaurants = [
@@ -1552,30 +1553,33 @@ const events = [
 
 const seedData = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Connected to MongoDB');
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/uniserve';
+    await mongoose.connect(mongoUri);
+    console.log('✅ Connected to MongoDB');
 
-    await Vehicle.deleteMany();
-    await Restaurant.deleteMany();
-    await Event.deleteMany();
+    // Clear existing data
+    await Vehicle.deleteMany({});
+    console.log('🗑️ Cleared existing vehicles');
 
-    console.log('Inserting vehicles...');
-    await Vehicle.insertMany(vehicles);
-    console.log(`✅ ${vehicles.length} vehicles added`);
+    // Insert vehicles
+    const seededVehicles = await Vehicle.insertMany(vehicles);
+    console.log(`✅ Seeded ${seededVehicles.length} vehicles!`);
+    console.log(`   📍 ${seededVehicles.filter(v => v.type === 'bike').length} Bikes`);
+    console.log(`   🚗 ${seededVehicles.filter(v => v.type === 'car').length} Cars`);
+    console.log(`   🚙 ${seededVehicles.filter(v => v.type === 'suv').length} SUVs`);
 
-    console.log('Inserting restaurants...');
-    await Restaurant.insertMany(restaurants);
-    console.log(`✅ ${restaurants.length} restaurants added`);
+    // Seed restaurants if data exists
+    if (restaurants.length > 0) {
+      await Restaurant.deleteMany({});
+      const savedRestaurants = await Restaurant.insertMany(restaurants);
+      console.log(`✅ Seeded ${savedRestaurants.length} restaurants`);
+    }
 
-    console.log('Inserting events...');
-    await Event.insertMany(events);
-    console.log(`✅ ${events.length} events added`);
-
-    console.log('\n🎉 Data seeded successfully!');
-    console.log(`📊 Total: ${vehicles.length} vehicles, ${restaurants.length} restaurants, ${events.length} events`);
+    await mongoose.connection.close();
+    console.log('\n✅ Database seeded successfully!');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding data:', error);
+    console.error('❌ Error seeding database:', error.message);
     process.exit(1);
   }
 };

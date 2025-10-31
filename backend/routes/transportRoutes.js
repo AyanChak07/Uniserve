@@ -12,8 +12,9 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/vehicles', getVehicles);
+// ✅ PUT /nearby BEFORE /vehicles (more specific routes first)
 router.get('/vehicles/nearby', getNearbyVehicles);
+router.get('/vehicles', getVehicles);
 router.post('/bookings', createBooking);
 router.get('/bookings', getUserBookings);
 router.put('/bookings/:id/payment', updateBookingPayment);

@@ -225,19 +225,38 @@ export default function Transport() {
     else if (selectedVehicle === 3) typeStr = "suv";
 
     let vehicleId = null;
+    // ✅ Better: Add error logging and handle response properly
     try {
       const token = localStorage.getItem("token");
       const vehiclesRes = await fetch(`${API_BASE_URL}/vehicles?type=${typeStr}`, {
-        headers: { Authorization: token ? `Bearer ${token}` : undefined },
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token ? `Bearer ${token}` : undefined,
+        },
       });
+      
       const vehiclesJson = await vehiclesRes.json();
-      if (vehiclesJson.success && vehiclesJson.data && vehiclesJson.data.length > 0)
+      
+      if (!vehiclesRes.ok) {
+        throw new Error(vehiclesJson.message || 'Failed to fetch vehicles');
+      }
+      
+      if (vehiclesJson.success && vehiclesJson.data && vehiclesJson.data.length > 0) {
         vehicleId = vehiclesJson.data[0]._id;
-      else throw new Error("No matching vehicle available.");
+      } else {
+        throw new Error("No matching vehicles available for type: " + typeStr);
+      }
     } catch (e) {
-      setBookingState({ loading: false, success: false, error: "Failed to get available vehicle." });
+      console.error('Vehicle fetch error:', e);
+      setBookingState({ 
+        loading: false, 
+        success: false, 
+        error: e.message || "Failed to get available vehicle." 
+      });
       return;
     }
+
 
     const fare = calculatePrice(selectedVehicle);
     const distance = getDistanceKm(pickupCoords, dropoffCoords);
