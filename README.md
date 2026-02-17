@@ -159,5 +159,3 @@ Uniserve is designed to be:
 ## ⭐ Support
 
 If you like this project, give it a **star** ⭐ and feel free to fork or contribute!
-
-```
