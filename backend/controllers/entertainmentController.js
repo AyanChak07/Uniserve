@@ -14,16 +14,16 @@ exports.getEvents = async (req, res, next) => {
       query.category = category;
     }
     
+    // ✅ FIXED: Only filter by specific date if provided
     if (date) {
       const startDate = new Date(date);
       const endDate = new Date(date);
       endDate.setDate(endDate.getDate() + 1);
       query.date = { $gte: startDate, $lt: endDate };
-    } else {
-      query.date = { $gte: new Date() };
     }
+    // REMOVED strict future date filter - shows ALL events now!
 
-    const events = await Event.find(query).sort('date');
+    const events = await Event.find(query).sort({ date: 1 });
 
     res.status(200).json({
       success: true,
@@ -65,21 +65,58 @@ exports.bookTicket = async (req, res, next) => {
   try {
     const { eventInfo, ticketType, quantity } = req.body;
 
-    if (!eventInfo) {
-      return res.status(400).json({ success: false, message: "eventInfo required" });
-    }
-    
-    const ticketTypeData = eventInfo.ticketTypes?.find(t => t.type === ticketType);
-
-    if (!ticketTypeData || ticketTypeData.available < quantity) {
-      return res.status(400).json({ success: false, message: "Not enough tickets available" });
+    if (!eventInfo || !ticketType || !quantity) {
+      return res.status(400).json({
+        success: false,
+        message: "eventInfo, ticketType and quantity are required"
+      });
     }
 
+    // 1️⃣ Find actual event from DB
+    const event = await Event.findOne({ title: eventInfo.title });
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found"
+      });
+    }
+
+    // 2️⃣ Find ticket type in DB
+    const ticketTypeData = event.ticketTypes.find(
+      t => t.type.toLowerCase() === ticketType.toLowerCase()
+    );
+
+
+    if (!ticketTypeData) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid ticket type"
+      });
+    }
+
+    // 3️⃣ Check availability
+    if (ticketTypeData.available < quantity) {
+      return res.status(400).json({
+        success: false,
+        message: "Not enough tickets available"
+      });
+    }
+
+    // 4️⃣ Reduce availability in DB
+    ticketTypeData.available -= quantity;
+    await event.save();
+
+    // 5️⃣ Calculate pricing
     const pricePerTicket = ticketTypeData.price;
     const total = pricePerTicket * quantity;
 
-    const bookingId = `BK${Date.now()}${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    const bookingId = `BK${Date.now()}${Math.random()
+      .toString(36)
+      .substr(2, 9)
+      .toUpperCase()}`;
 
+    // 6️⃣ Create ticket
     const ticket = await Ticket.create({
       user: req.user.id,
       eventInfo,
@@ -90,15 +127,14 @@ exports.bookTicket = async (req, res, next) => {
       bookingId
     });
 
-    // No event.save() here
-
     const populatedTicket = await Ticket.findById(ticket._id)
-      .populate('user', 'name email phone'); // only populate user
+      .populate('user', 'name email phone');
 
     res.status(201).json({
       success: true,
       data: populatedTicket
     });
+
   } catch (error) {
     next(error);
   }
