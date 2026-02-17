@@ -1,4 +1,3 @@
-```markdown
 # 🏠 Uniserve – One Platform, Multiple Services
 
 Uniserve is a **full-stack service aggregation platform** that allows users to access and manage multiple daily-life services such as **Transport, Food Ordering, Entertainment Ticket Booking, Medical Appointments, and Household Services** — all from a single unified dashboard.
