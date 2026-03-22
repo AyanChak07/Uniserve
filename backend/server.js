@@ -30,6 +30,8 @@ app.use('/api/food', require('./routes/foodRoutes'));
 app.use('/api/entertainment', require('./routes/entertainmentRoutes'));
 app.use('/api/medical', require('./routes/medicalRoutes'));
 app.use("/api/household", require("./routes/householdRoutes"));
+app.use('/api/chat', require('./routes/chatRoutes'));
+
 
 // Health check
 app.get('/api/health', (req, res) => {
