@@ -1,9 +1,22 @@
 import { useState, useRef, useEffect } from 'react';
-import { Film, Clock, Star, Trophy, Laugh, Music, Theater, CheckCircle } from 'lucide-react';
+import { Film, Clock, Star, Trophy, Laugh, Music, Drama, CheckCircle } from 'lucide-react';
 import Confetti from 'react-confetti';
 import useWindowSize from 'react-use/lib/useWindowSize';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL + "/entertainment";
+
+
+const seatToTicketTypeMap = {
+  economy: "Economy",
+  silver: "Silver",
+  platinum: "Platinum",
+
+  // stadium seats
+  vip: "VIP",
+  premium: "Premium",
+  standard: "Economy",
+};
+
 
 const screenSeatCategories = {
   economy: { price: 150, color: 'bg-green-500', rows: [0, 1] },
@@ -30,517 +43,10 @@ const categories = [
   { name: 'Sports', icon: <Trophy className="w-5 h-5" /> },
   { name: 'Comedy', icon: <Laugh className="w-5 h-5" /> },
   { name: 'Concerts', icon: <Music className="w-5 h-5" /> },
-  { name: 'Theater', icon: <Theater className="w-5 h-5" /> }
+  { name: 'Theater', icon: <Drama className="w-5 h-5" /> }
 ];
 
 const dates = ['Oct 29', 'Oct 30', 'Oct 31', 'Nov 1', 'Nov 2'];
-
-const events = [
-  // MOVIES
-  {
-    id: 1,
-    title: 'Inception',
-    category: 'Movies',
-    genre: 'Sci-Fi, Thriller',
-    rating: 8.8,
-    duration: '2h 28min',
-    language: 'English',
-    image: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['1:00 PM', '4:00 PM', '7:00 PM', '10:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 2,
-    title: 'The Dark Knight',
-    category: 'Movies',
-    genre: 'Action, Crime',
-    rating: 9.0,
-    duration: '2h 32min',
-    language: 'English',
-    image: 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['2:00 PM', '5:00 PM', '8:00 PM', '11:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 3,
-    title: 'Interstellar',
-    category: 'Movies',
-    genre: 'Sci-Fi, Drama',
-    rating: 8.6,
-    duration: '2h 49min',
-    language: 'English',
-    image: 'https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['12:30 PM', '4:30 PM', '7:30 PM', '10:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 24,
-    title: 'Avengers: Endgame',
-    category: 'Movies',
-    genre: 'Action, Superhero',
-    rating: 8.4,
-    duration: '3h 01min',
-    language: 'English',
-    image: 'https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['11:00 AM', '3:00 PM', '6:30 PM', '10:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 25,
-    title: 'Jawan',
-    category: 'Movies',
-    genre: 'Action, Thriller',
-    rating: 7.9,
-    duration: '2h 49min',
-    language: 'Hindi',
-    image: 'https://i.pinimg.com/736x/c4/d9/cc/c4d9cc183a95adc597947342c2bc6b31.jpg',
-    showTimes: ['12:00 PM', '3:30 PM', '7:00 PM', '10:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 26,
-    title: 'The Shawshank Redemption',
-    category: 'Movies',
-    genre: 'Drama',
-    rating: 9.3,
-    duration: '2h 22min',
-    language: 'English',
-    image: 'https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['1:00 PM', '4:00 PM', '7:00 PM', '10:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  // {
-  //   id: 27,
-  //   title: 'Pathaan',
-  //   category: 'Movies',
-  //   genre: 'Action, Spy',
-  //   rating: 8.1,
-  //   duration: '2h 26min',
-  //   language: 'Hindi',
-  //   image: 'https://i.pinimg.com/736x/4d/47/3d/4d473d1edded9306190ec66c0c1c4628.jpg',
-  //   ticketTypes: [
-  //     { type: "economy", price: 150, available: 100 },
-  //     { type: "silver", price: 200, available: 60 },
-  //     { type: "platinum", price: 300, available: 40 }
-  //   ]
-  // },
-  {
-    id: 28,
-    title: 'The Godfather',
-    category: 'Movies',
-    genre: 'Crime, Drama',
-    rating: 9.2,
-    duration: '2h 55min',
-    language: 'English',
-    image: 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['2:00 PM', '6:00 PM', '9:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 29,
-    title: 'Pulp Fiction',
-    category: 'Movies',
-    genre: 'Crime, Drama',
-    rating: 8.9,
-    duration: '2h 34min',
-    language: 'English',
-    image: 'https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['1:30 PM', '5:00 PM', '8:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 30,
-    title: '3 Idiots',
-    category: 'Movies',
-    genre: 'Comedy, Drama',
-    rating: 8.4,
-    duration: '2h 50min',
-    language: 'Hindi',
-    image: 'https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['12:00 PM', '3:30 PM', '7:00 PM', '10:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 31,
-    title: 'Oppenheimer',
-    category: 'Movies',
-    genre: 'Biography, Drama',
-    rating: 8.7,
-    duration: '3h 00min',
-    language: 'English',
-    image: 'https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_FMjpg_UX1000_.jpg',
-    showTimes: ['11:00 AM', '3:00 PM', '7:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-
-  // SPORTS
-  {
-    id: 4,
-    title: 'IPL 2025 Final',
-    category: 'Sports',
-    genre: 'Cricket',
-    rating: 9.2,
-    duration: '4h 00min',
-    language: 'Hindi/English',
-    image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800&q=80',
-    showTimes: ['3:00 PM', '7:30 PM'],
-    ticketTypes: [
-      { type: "vip", price: 500, available: 50 },
-      { type: "premium", price: 350, available: 100 },
-      { type: "standard", price: 200, available: 200 }
-    ]
-  },
-  {
-    id: 5,
-    title: 'India vs Australia ODI',
-    category: 'Sports',
-    genre: 'Cricket',
-    rating: 8.9,
-    duration: '5h 00min',
-    language: 'Hindi/English',
-    image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=800&q=80',
-    showTimes: ['2:00 PM'],
-    ticketTypes: [
-      { type: "vip", price: 500, available: 50 },
-      { type: "premium", price: 350, available: 100 },
-      { type: "standard", price: 200, available: 200 }
-    ]
-  },
-  {
-    id: 6,
-    title: 'Premier League: Arsenal vs Chelsea',
-    category: 'Sports',
-    genre: 'Football',
-    rating: 8.7,
-    duration: '2h 00min',
-    language: 'English',
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-    showTimes: ['10:00 PM'],
-    ticketTypes: [
-      { type: "vip", price: 500, available: 50 },
-      { type: "premium", price: 350, available: 100 },
-      { type: "standard", price: 200, available: 200 }
-    ]
-  },
-  {
-    id: 7,
-    title: 'NBA Finals Live Screening',
-    category: 'Sports',
-    genre: 'Basketball',
-    rating: 8.5,
-    duration: '3h 00min',
-    language: 'English',
-    image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80',
-    showTimes: ['6:30 AM', '9:00 AM'],
-    ticketTypes: [
-      { type: "vip", price: 500, available: 50 },
-      { type: "premium", price: 350, available: 100 },
-      { type: "standard", price: 200, available: 200 }
-    ]
-  },
-  {
-    id: 8,
-    title: 'UFC Fight Night',
-    category: 'Sports',
-    genre: 'Mixed Martial Arts',
-    rating: 8.8,
-    duration: '4h 00min',
-    language: 'English',
-    image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=800&q=80',
-    showTimes: ['8:00 PM'],
-    ticketTypes: [
-      { type: "vip", price: 500, available: 50 },
-      { type: "premium", price: 350, available: 100 },
-      { type: "standard", price: 200, available: 200 }
-    ]
-  },
-
-  // COMEDY
-  {
-    id: 9,
-    title: 'Stand-Up Comedy Night',
-    category: 'Comedy',
-    genre: 'Live Comedy',
-    rating: 8.5,
-    duration: '2h 00min',
-    language: 'Hindi',
-    image: 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&q=80',
-    showTimes: ['6:00 PM', '9:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 10,
-    title: 'Kapil Sharma Live',
-    category: 'Comedy',
-    genre: 'Stand-Up Comedy',
-    rating: 8.9,
-    duration: '2h 30min',
-    language: 'Hindi',
-    image: 'https://images.unsplash.com/photo-1527224538127-2104bb71c51b?w=800&q=80',
-    showTimes: ['7:00 PM', '10:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 11,
-    title: 'Comedy Circus Reunion',
-    category: 'Comedy',
-    genre: 'Comedy Show',
-    rating: 8.4,
-    duration: '2h 15min',
-    language: 'Hindi',
-    image: 'https://images.unsplash.com/photo-1516450137517-162bfbeb8dba?w=800&q=80',
-    showTimes: ['6:30 PM', '9:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 12,
-    title: 'Open Mic Comedy Night',
-    category: 'Comedy',
-    genre: 'Stand-Up',
-    rating: 8.2,
-    duration: '1h 30min',
-    language: 'English/Hindi',
-    image: 'https://images.unsplash.com/photo-1522158637959-30385a09e0da?w=800&q=80',
-    showTimes: ['8:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 13,
-    title: 'Improv Comedy Show',
-    category: 'Comedy',
-    genre: 'Improv',
-    rating: 8.6,
-    duration: '2h 00min',
-    language: 'English',
-    image: 'https://images.unsplash.com/photo-1513106580091-1d82408b8cd6?w=800&q=80',
-    showTimes: ['7:00 PM', '9:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-
-  // CONCERTS
-  {
-    id: 14,
-    title: 'Rock Band Live Concert',
-    category: 'Concerts',
-    genre: 'Rock Music',
-    rating: 8.9,
-    duration: '3h 00min',
-    language: 'English',
-    image: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&q=80',
-    showTimes: ['7:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 15,
-    title: 'AR Rahman Live in Concert',
-    category: 'Concerts',
-    genre: 'Bollywood Music',
-    rating: 9.3,
-    duration: '3h 30min',
-    language: 'Hindi',
-    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80',
-    showTimes: ['6:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 16,
-    title: 'EDM Night Festival',
-    category: 'Concerts',
-    genre: 'Electronic Dance',
-    rating: 8.7,
-    duration: '4h 00min',
-    language: 'Instrumental',
-    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80',
-    showTimes: ['8:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 17,
-    title: 'Classical Music Evening',
-    category: 'Concerts',
-    genre: 'Classical',
-    rating: 8.8,
-    duration: '2h 30min',
-    language: 'Instrumental',
-    image: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&q=80',
-    showTimes: ['6:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 18,
-    title: 'Jazz Night Live',
-    category: 'Concerts',
-    genre: 'Jazz',
-    rating: 8.5,
-    duration: '2h 00min',
-    language: 'Instrumental',
-    image: 'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&q=80',
-    showTimes: ['7:30 PM', '10:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-
-  // THEATER
-  {
-    id: 19,
-    title: 'Shakespeare Festival',
-    category: 'Theater',
-    genre: 'Drama',
-    rating: 8.4,
-    duration: '2h 30min',
-    language: 'English',
-    image: 'https://images.unsplash.com/photo-1503095396549-807759245b35?w=800&q=80',
-    showTimes: ['5:00 PM', '8:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 20,
-    title: 'The Phantom of the Opera',
-    category: 'Theater',
-    genre: 'Musical',
-    rating: 9.1,
-    duration: '2h 45min',
-    language: 'English',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
-    showTimes: ['3:00 PM', '7:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 21,
-    title: 'Mughal-e-Azam Musical',
-    category: 'Theater',
-    genre: 'Musical Drama',
-    rating: 8.9,
-    duration: '3h 00min',
-    language: 'Hindi',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xeLCLjacys110u-PjR9ghsrKRTwfyhGq9w&s',
-    showTimes: ['6:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 22,
-    title: 'Modern Dance Theatre',
-    category: 'Theater',
-    genre: 'Contemporary Dance',
-    rating: 8.6,
-    duration: '1h 45min',
-    language: 'Non-verbal',
-    image: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=800&q=80',
-    showTimes: ['5:30 PM', '8:30 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  },
-  {
-    id: 23,
-    title: 'Comedy Play: The Proposal',
-    category: 'Theater',
-    genre: 'Comedy Drama',
-    rating: 8.3,
-    duration: '2h 00min',
-    language: 'English',
-    image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80',
-    showTimes: ['6:00 PM', '9:00 PM'],
-    ticketTypes: [
-      { type: "economy", price: 150, available: 100 },
-      { type: "silver", price: 200, available: 60 },
-      { type: "platinum", price: 300, available: 40 }
-    ]
-  }
-];
 
 
 function generateStadiumSeats() {
@@ -635,6 +141,8 @@ const Entertainment = () => {
   const [showBookingPopup, setShowBookingPopup] = useState(false); // NEW STATE
   const audioRef = useRef(null);
   const { width, height } = useWindowSize();
+  const [events, setEvents] = useState([]);
+
 
   useEffect(() => {
     if (bookingStep === "success" && lastBooking) {
@@ -643,6 +151,41 @@ const Entertainment = () => {
       setShowBookingPopup(false);
     }
   }, [bookingStep, lastBooking]);
+
+  useEffect(() => {
+  fetchEvents();
+}, []);
+
+  const fetchEvents = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/events`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+      },
+    });
+
+    const data = await res.json();
+
+    // Category mapping (declare OUTSIDE map)
+    const categoryMap = {
+      movie: "Movies",
+      concert: "Concerts",
+      sports: "Sports",
+      comedy: "Comedy",
+      theater: "Theater",
+    };
+
+    const normalized = (data.data || []).map(ev => ({
+      ...ev,
+      category: categoryMap[ev.category] || ev.category,
+    }));
+
+    setEvents(normalized);
+  } catch (err) {
+    console.error("Failed to fetch events", err);
+  }
+};
+
 
   const [screenSeats] = useState(generateScreenSeats());
   const [stadiumSeats] = useState(generateStadiumSeats());
@@ -664,10 +207,15 @@ const Entertainment = () => {
     }
   };
 
-  const calculateTotal = () => selectedSeats.reduce((total, seatId) => {
-    const seat = seats.find(s => s.id === seatId);
-    return total + seatCategories[seat.category].price;
-  }, 0);
+    const calculateTotal = () => {
+      return selectedSeats.reduce((total, seatId) => {
+        const seat = seats.find(s => s.id === seatId);
+        if (!seat) return total;
+        return total + seatCategories[seat.category].price;
+      }, 0);
+    };
+
+
 
   const getSeatColor = (seat) => {
     if (seat.isBooked) return 'bg-gray-400 cursor-not-allowed';
@@ -687,109 +235,103 @@ const Entertainment = () => {
     setBookingStep("payment");
   };
 
-  async function finishPayment() {
-    setLoading(true);
-    try {
-      const eventInfo = {
-        title: selectedMovie.title,
-        category: selectedMovie.category,
-        date: selectedDate,
-        time: selectedTime,
-        ticketTypes: selectedMovie.ticketTypes || [],
-        image: selectedMovie.image,
-      };
+async function finishPayment() {
+  setLoading(true);
 
-      if (isStadiumView) {
-        const seatsByCategory = selectedSeats.reduce((acc, seatId) => {
-          const seat = seats.find(s => s.id === seatId);
-          if (!seat) return acc;
-          if (!acc[seat.category]) acc[seat.category] = [];
-          acc[seat.category].push(seatId);
-          return acc;
-        }, {});
+  try {
+    const eventInfo = {
+      title: selectedMovie.title,
+      category: selectedMovie.category,
+      date: selectedDate,
+      time: selectedTime,
+      ticketTypes: selectedMovie.ticketTypes || [],
+      image: selectedMovie.image,
+    };
 
-        for (const [ticketType, seatIds] of Object.entries(seatsByCategory)) {
-          const quantity = seatIds.length;
+    const fallbackMap = {
+      economy: "Economy",
+      silver: "Silver",
+      platinum: "Platinum",
+      vip: "VIP",
+      premium: "Premium",
+      standard: "Standard",
+    };
 
-          const res = await fetch(`${API_BASE_URL}/tickets`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
-            },
-            body: JSON.stringify({
-              eventInfo,
-              ticketType,
-              quantity,
-            }),
-          });
+    const seatsByCategory = selectedSeats.reduce((acc, seatId) => {
+      const seat = seats.find(s => s.id === seatId);
+      if (!seat) return acc;
+      acc[seat.category] = acc[seat.category] || [];
+      acc[seat.category].push(seatId);
+      return acc;
+    }, {});
 
-          const resJson = await res.json();
-          if (!res.ok) throw new Error(resJson.message || "Failed to book ticket.");
+    for (const [seatCategory, seatIds] of Object.entries(seatsByCategory)) {
+      let ticketType = null;
 
-          const newBooking = resJson.data;
+      // 1️⃣ Try DB match by price
+      const price = seatCategories[seatCategory]?.price;
+      ticketType = selectedMovie.ticketTypes?.find(
+        t => Number(t.price) === Number(price)
+      )?.type;
 
-          await fetch(`${API_BASE_URL}/tickets/${newBooking._id}/payment`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
-            },
-            body: JSON.stringify({ paymentId: `pay_${Date.now()}`, paymentStatus: "completed" }),
-          });
-        }
-      } else {
-        const ticketType = [...new Set(selectedSeats.map(seatId => seats.find(s => s.id === seatId).category))][0];
-
-        const res = await fetch(`${API_BASE_URL}/tickets`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
-          },
-          body: JSON.stringify({
-            eventInfo,
-            ticketType,
-            quantity: selectedSeats.length,
-          }),
-        });
-
-        const resJson = await res.json();
-        if (!res.ok) throw new Error(resJson.message || "Failed to book ticket.");
-
-        const newBooking = resJson.data;
-
-        await fetch(`${API_BASE_URL}/tickets/${newBooking._id}/payment`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
-          },
-          body: JSON.stringify({ paymentId: `pay_${Date.now()}`, paymentStatus: "completed" }),
-        });
+      // 2️⃣ Fallback to name
+      if (!ticketType) {
+        ticketType = fallbackMap[seatCategory];
       }
 
-      setLoading(false);
-      setBookingStep("success");
-      setLastBooking({
-        event: selectedMovie,
-        selectedSeats: selectedSeatLabels,
-        selectedDate,
-        selectedTime,
-        total: calculateTotal(),
+      if (!ticketType) {
+        throw new Error(`No ticket type found for ${seatCategory}`);
+      }
+
+      const res = await fetch(`${API_BASE_URL}/tickets`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+        body: JSON.stringify({
+          eventInfo,
+          ticketType,
+          quantity: seatIds.length,
+        }),
       });
-      setShowConfetti(true);
-      if (audioRef.current) audioRef.current.play();
-      
-      setTimeout(() => {
-        setShowConfetti(false);
-      }, 3500);
-      
-    } catch (error) {
-      setLoading(false);
-      alert("Booking failed: " + error.message);
+
+      const resJson = await res.json();
+      if (!res.ok) throw new Error(resJson.message);
+
+      await fetch(`${API_BASE_URL}/tickets/${resJson.data._id}/payment`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+        body: JSON.stringify({
+          paymentId: `pay_${Date.now()}`,
+          paymentStatus: "completed",
+        }),
+      });
     }
+
+    setBookingStep("success");
+    setLastBooking({
+      event: selectedMovie,
+      selectedSeats: selectedSeatLabels,
+      selectedDate,
+      selectedTime,
+      total: calculateTotal(),
+    });
+
+    setShowConfetti(true);
+    audioRef.current?.play();
+    setTimeout(() => setShowConfetti(false), 3500);
+
+  } catch (err) {
+    alert("Booking failed: " + err.message);
+  } finally {
+    setLoading(false);
   }
+}
+
 
 
   useEffect(() => {
@@ -975,7 +517,7 @@ const Entertainment = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredEvents.map((event) => (
                 <div 
-                  key={event.id} 
+                  key={event._id} 
                   className="group bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:scale-105 border-2 border-transparent hover:border-blue-400"
                   onClick={() => setSelectedMovie(event)}
                 >
@@ -1069,7 +611,7 @@ const Entertainment = () => {
                   <div className="mb-8">
                     <label className="block text-sm font-medium text-gray-700 mb-3">Select Show Time</label>
                     <div className="flex gap-3 flex-wrap">
-                      {selectedMovie.showTimes.map((time) => (
+                      {(selectedMovie.showTimes ?? ['3:00 PM', '7:00 PM', '10:00 PM']).map((time) => (
                         <button
                           key={time}
                           onClick={() => setSelectedTime(time)}

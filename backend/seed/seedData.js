@@ -765,10 +765,11 @@ const restaurants = [
 
 // 35+ Entertainment Events across all categories
 const events = [
-  // MOVIES (10)
+
+  // ===================== MOVIES (10) =====================
   {
-    title: 'Avengers: Secret Wars',
-    description: 'The biggest Marvel movie of the decade with breathtaking action and stunning visuals',
+    title: 'Inception',
+    description: 'A mind-bending sci-fi thriller where dreams are manipulated to alter reality.',
     category: 'movie',
     venue: {
       name: 'INOX Megaplex',
@@ -780,20 +781,21 @@ const events = [
     },
     date: new Date('2025-11-15'),
     time: '7:00 PM',
-    duration: '2h 45m',
+    duration: '2h 28m',
     ticketTypes: [
-      { type: 'Regular', price: 250, available: 100 },
-      { type: 'Premium', price: 400, available: 50 },
-      { type: 'VIP Recliner', price: 600, available: 20 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80',
+    image: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg',
     rating: 4.8,
     language: 'English',
     ageRating: 'PG-13'
   },
+
   {
-    title: 'Pushpa 2: The Rule',
-    description: 'The most anticipated sequel of Indian cinema - action-packed blockbuster',
+    title: 'The Dark Knight',
+    description: 'Batman faces the Joker in a battle for Gotham’s soul.',
     category: 'movie',
     venue: {
       name: 'PVR IMAX',
@@ -804,21 +806,22 @@ const events = [
       }
     },
     date: new Date('2025-12-05'),
-    time: '9:00 PM',
-    duration: '3h 10m',
+    time: '8:00 PM',
+    duration: '2h 32m',
     ticketTypes: [
-      { type: 'Normal', price: 300, available: 150 },
-      { type: 'IMAX', price: 550, available: 80 },
-      { type: 'Gold Class', price: 800, available: 40 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80',
-    rating: 4.6,
-    language: 'Hindi, Telugu',
-    ageRating: 'UA'
+    image: 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg',
+    rating: 4.9,
+    language: 'English',
+    ageRating: 'PG-13'
   },
+
   {
-    title: 'Interstellar Re-Release',
-    description: 'Christopher Nolan\'s masterpiece returns to IMAX screens',
+    title: 'Interstellar',
+    description: 'A breathtaking journey across space and time to save humanity.',
     category: 'movie',
     venue: {
       name: 'PVR IMAX',
@@ -832,17 +835,45 @@ const events = [
     time: '6:30 PM',
     duration: '2h 49m',
     ticketTypes: [
-      { type: 'IMAX', price: 600, available: 120 },
-      { type: 'IMAX Premium', price: 850, available: 50 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&q=80',
-    rating: 4.9,
+    image: 'https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg',
+    rating: 4.7,
     language: 'English',
     ageRating: 'PG-13'
   },
+
   {
-    title: 'Pathaan Returns',
-    description: 'Shah Rukh Khan is back with high-octane action thriller',
+    title: 'Avengers: Endgame',
+    description: 'The epic conclusion to the Infinity Saga.',
+    category: 'movie',
+    venue: {
+      name: 'INOX Megaplex',
+      location: {
+        type: 'Point',
+        coordinates: [72.8777, 19.0760],
+        address: 'Phoenix Mall, Lower Parel, Mumbai'
+      }
+    },
+    date: new Date('2025-12-10'),
+    time: '6:30 PM',
+    duration: '3h 01m',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_FMjpg_UX1000_.jpg',
+    rating: 4.6,
+    language: 'English',
+    ageRating: 'UA'
+  },
+
+  {
+    title: 'Jawan',
+    description: 'A mass-entertainer action thriller starring Shah Rukh Khan.',
     category: 'movie',
     venue: {
       name: 'Cinepolis',
@@ -854,20 +885,21 @@ const events = [
     },
     date: new Date('2025-12-15'),
     time: '8:00 PM',
-    duration: '2h 35m',
+    duration: '2h 49m',
     ticketTypes: [
-      { type: 'Standard', price: 280, available: 200 },
-      { type: 'Executive', price: 450, available: 80 },
-      { type: 'Premium', price: 650, available: 30 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=800&q=80',
-    rating: 4.7,
+    image: 'https://i.pinimg.com/736x/c4/d9/cc/c4d9cc183a95adc597947342c2bc6b31.jpg',
+    rating: 4.5,
     language: 'Hindi',
     ageRating: 'UA'
   },
+
   {
-    title: 'Dune: Messiah',
-    description: 'The epic saga continues - breathtaking sci-fi adventure',
+    title: 'The Shawshank Redemption',
+    description: 'A timeless story of hope, friendship and freedom.',
     category: 'movie',
     venue: {
       name: 'INOX Megaplex',
@@ -879,20 +911,21 @@ const events = [
     },
     date: new Date('2025-12-01'),
     time: '7:30 PM',
-    duration: '2h 55m',
+    duration: '2h 22m',
     ticketTypes: [
-      { type: 'Regular', price: 320, available: 120 },
-      { type: 'Dolby Atmos', price: 520, available: 60 },
-      { type: 'VIP', price: 750, available: 25 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=800&q=80',
-    rating: 4.8,
+    image: 'https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_FMjpg_UX1000_.jpg',
+    rating: 5.0,
     language: 'English',
     ageRating: 'PG-13'
   },
+
   {
-    title: 'Salaar Part 2',
-    description: 'Pan-Indian action drama with stunning visuals',
+    title: 'The Godfather',
+    description: 'The legendary crime saga of the Corleone family.',
     category: 'movie',
     venue: {
       name: 'Carnival Cinemas',
@@ -904,217 +937,199 @@ const events = [
     },
     date: new Date('2025-11-25'),
     time: '9:30 PM',
-    duration: '2h 50m',
+    duration: '2h 55m',
     ticketTypes: [
-      { type: 'Silver', price: 250, available: 180 },
-      { type: 'Gold', price: 420, available: 70 },
-      { type: 'Platinum', price: 600, available: 35 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=800&q=80',
-    rating: 4.5,
-    language: 'Hindi, Telugu, Tamil',
-    ageRating: 'UA'
+    image: 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg',
+    rating: 4.9,
+    language: 'English',
+    ageRating: 'A'
   },
+
   {
-    title: 'The Batman Returns',
-    description: 'The Dark Knight rises again in Gotham City',
+    title: 'Pulp Fiction',
+    description: 'A cult classic crime drama with interwoven stories.',
     category: 'movie',
     venue: {
-      name: 'PVR Director\'s Cut',
+      name: 'PVR Cinemas',
       location: {
         type: 'Point',
-        coordinates: [72.8900, 19.0900],
-        address: 'Ambience Mall, Vasai'
+        coordinates: [72.8850, 19.0820],
+        address: 'Kurla, Mumbai'
       }
     },
-    date: new Date('2025-12-10'),
-    time: '10:00 PM',
-    duration: '2h 40m',
+    date: new Date('2025-12-08'),
+    time: '8:30 PM',
+    duration: '2h 34m',
     ticketTypes: [
-      { type: 'Luxury Recliner', price: 900, available: 40 },
-      { type: 'Premium', price: 650, available: 50 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=800&q=80',
+    image: 'https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg',
     rating: 4.7,
     language: 'English',
-    ageRating: 'PG-13'
+    ageRating: 'A'
   },
+
   {
-    title: 'Jawan 2',
-    description: 'Shah Rukh Khan\'s blockbuster sequel with massive action',
+    title: '3 Idiots',
+    description: 'A heart-warming comedy-drama about friendship and life.',
     category: 'movie',
     venue: {
-      name: 'Cinepolis',
+      name: 'INOX Megaplex',
       location: {
         type: 'Point',
-        coordinates: [72.8550, 19.0550],
-        address: 'Seawoods Grand Central, Navi Mumbai'
+        coordinates: [72.8777, 19.0760],
+        address: 'Lower Parel, Mumbai'
       }
     },
-    date: new Date('2025-11-28'),
-    time: '8:30 PM',
-    duration: '2h 45m',
+    date: new Date('2025-12-12'),
+    time: '7:00 PM',
+    duration: '2h 50m',
     ticketTypes: [
-      { type: 'Normal', price: 300, available: 150 },
-      { type: 'Premium', price: 480, available: 70 },
-      { type: 'VIP', price: 700, available: 30 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=800&q=80',
+    image: 'https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg',
     rating: 4.6,
     language: 'Hindi',
     ageRating: 'UA'
   },
+
   {
-    title: 'Spider-Man: New Era',
-    description: 'New web-slinging adventures across the multiverse',
+    title: 'Oppenheimer',
+    description: 'The story of the man behind the atomic bomb.',
     category: 'movie',
     venue: {
-      name: 'INOX Insignia',
+      name: 'PVR IMAX',
       location: {
         type: 'Point',
-        coordinates: [72.8450, 19.0450],
-        address: 'Atria Mall, Worli'
+        coordinates: [72.8850, 19.0820],
+        address: 'Kurla, Mumbai'
       }
     },
-    date: new Date('2025-12-08'),
-    time: '6:00 PM',
-    duration: '2h 30m',
+    date: new Date('2025-12-18'),
+    time: '7:00 PM',
+    duration: '3h',
     ticketTypes: [
-      { type: '4DX', price: 850, available: 50 },
-      { type: 'IMAX', price: 650, available: 80 },
-      { type: 'Regular', price: 350, available: 120 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?w=800&q=80',
+    image: 'https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_FMjpg_UX1000_.jpg',
     rating: 4.8,
     language: 'English',
-    ageRating: 'PG-13'
-  },
-  {
-    title: 'Gadar 3',
-    description: 'The legendary saga continues with patriotic fervor',
-    category: 'movie',
-    venue: {
-      name: 'Moviemax',
-      location: {
-        type: 'Point',
-        coordinates: [72.8350, 19.0350],
-        address: 'Hub Mall, Goregaon'
-      }
-    },
-    date: new Date('2025-12-20'),
-    time: '7:00 PM',
-    duration: '2h 55m',
-    ticketTypes: [
-      { type: 'Standard', price: 270, available: 200 },
-      { type: 'Royal', price: 450, available: 80 }
-    ],
-    image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&q=80',
-    rating: 4.5,
-    language: 'Hindi',
-    ageRating: 'UA'
+    ageRating: 'R'
   },
 
-  // CONCERTS (10)
+  // ===================== SPORTS (5) =====================
   {
-    title: 'Arijit Singh Live in Concert',
-    description: 'An unforgettable evening with the voice of Bollywood - experience magic live',
-    category: 'concert',
+    title: 'IPL 2025 Final',
+    description: 'The biggest night of Indian cricket.',
+    category: 'sports',
     venue: {
-      name: 'DY Patil Stadium',
+      name: 'Narendra Modi Stadium',
       location: {
         type: 'Point',
-        coordinates: [73.0169, 19.0330],
-        address: 'D.Y. Patil Sports Stadium, Navi Mumbai'
+        coordinates: [72.5714, 23.0910],
+        address: 'Motera, Ahmedabad'
       }
     },
-    date: new Date('2025-12-20'),
-    time: '6:00 PM',
-    duration: '3 hours',
-    ticketTypes: [
-      { type: 'Silver', price: 1500, available: 500 },
-      { type: 'Gold', price: 3000, available: 200 },
-      { type: 'Platinum', price: 5000, available: 100 },
-      { type: 'VIP Meet & Greet', price: 10000, available: 50 }
-    ],
-    image: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800&q=80',
-    rating: 4.9
-  },
-  {
-    title: 'Coldplay: Music of the Spheres',
-    description: 'Experience the spectacular world tour with stunning visuals and greatest hits',
-    category: 'concert',
-    venue: {
-      name: 'DY Patil Stadium',
-      location: {
-        type: 'Point',
-        coordinates: [73.0169, 19.0330],
-        address: 'D.Y. Patil Sports Stadium, Navi Mumbai'
-      }
-    },
-    date: new Date('2026-01-15'),
-    time: '7:00 PM',
-    duration: '2.5 hours',
-    ticketTypes: [
-      { type: 'General', price: 3000, available: 800 },
-      { type: 'Fan Pit', price: 8000, available: 300 },
-      { type: 'VIP Lounge', price: 15000, available: 100 }
-    ],
-    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80',
-    rating: 4.9
-  },
-  {
-    title: 'Diljit Dosanjh Live',
-    description: 'Punjabi music sensation performs his biggest hits',
-    category: 'concert',
-    venue: {
-      name: 'MMRDA Grounds',
-      location: {
-        type: 'Point',
-        coordinates: [72.8700, 19.0650],
-        address: 'BKC, Mumbai'
-      }
-    },
-    date: new Date('2025-12-28'),
+    date: new Date('2026-05-29'),
     time: '7:30 PM',
-    duration: '3 hours',
+    duration: '4h',
     ticketTypes: [
-      { type: 'General', price: 1200, available: 600 },
-      { type: 'Premium', price: 2500, available: 250 },
-      { type: 'VIP', price: 5000, available: 100 }
+      { type: 'VIP', price: 500, available: 50 },
+      { type: 'Premium', price: 350, available: 100 },
+      { type: 'Standard', price: 200, available: 200 }
     ],
-    image: 'https://images.unsplash.com/photo-1501612780327-45045538702b?w=800&q=80',
-    rating: 4.7
+    image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800&q=80',
+    rating: 4.8
   },
+
   {
-    title: 'AR Rahman Symphony',
-    description: 'The maestro performs with full orchestra',
-    category: 'concert',
+    title: 'India vs Australia ODI',
+    description: 'A high-voltage international cricket clash.',
+    category: 'sports',
     venue: {
-      name: 'Jio World Garden',
+      name: 'Wankhede Stadium',
       location: {
         type: 'Point',
-        coordinates: [72.8680, 19.0620],
-        address: 'BKC, Mumbai'
+        coordinates: [72.8258, 18.9388],
+        address: 'Churchgate, Mumbai'
       }
     },
-    date: new Date('2026-01-10'),
-    time: '8:00 PM',
-    duration: '2.5 hours',
+    date: new Date('2026-02-15'),
+    time: '2:00 PM',
+    duration: '5h',
     ticketTypes: [
-      { type: 'Bronze', price: 2000, available: 400 },
-      { type: 'Silver', price: 4000, available: 200 },
-      { type: 'Gold', price: 7000, available: 100 },
-      { type: 'Platinum', price: 12000, available: 50 }
+      { type: 'VIP', price: 500, available: 50 },
+      { type: 'Premium', price: 350, available: 100 },
+      { type: 'Standard', price: 200, available: 200 }
     ],
-    image: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=800&q=80',
-    rating: 5.0
+    image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=800&q=80',
+    rating: 4.6
   },
+
   {
-    title: 'Badshah Live',
-    description: 'Hip-hop star brings energetic performance',
-    category: 'concert',
+    title: 'Premier League: Arsenal vs Chelsea',
+    description: 'A fierce London derby.',
+    category: 'sports',
     venue: {
-      name: 'MMRDA Grounds',
+      name: 'Sports Arena Mumbai',
+      location: {
+        type: 'Point',
+        coordinates: [72.8350, 19.0250],
+        address: 'Andheri Sports Complex'
+      }
+    },
+    date: new Date('2025-12-22'),
+    time: '10:00 PM',
+    duration: '2h',
+    ticketTypes: [
+      { type: 'VIP', price: 500, available: 50 },
+      { type: 'Premium', price: 350, available: 100 },
+      { type: 'Standard', price: 200, available: 200 }
+    ],
+    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
+    rating: 4.5
+  },
+
+  {
+    title: 'NBA Finals Live Screening',
+    description: 'Watch the NBA Finals live with fans.',
+    category: 'sports',
+    venue: {
+      name: 'Sports Bar Arena',
+      location: {
+        type: 'Point',
+        coordinates: [72.8777, 19.0760],
+        address: 'Lower Parel, Mumbai'
+      }
+    },
+    date: new Date('2025-11-30'),
+    time: '6:30 AM',
+    duration: '3h',
+    ticketTypes: [
+      { type: 'VIP', price: 500, available: 50 },
+      { type: 'Premium', price: 350, available: 100 },
+      { type: 'Standard', price: 200, available: 200 }
+    ],
+    image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80',
+    rating: 4.4
+  },
+
+  {
+    title: 'UFC Fight Night',
+    description: 'An electrifying night of mixed martial arts.',
+    category: 'sports',
+    venue: {
+      name: 'Indoor Arena Mumbai',
       location: {
         type: 'Point',
         coordinates: [72.8700, 19.0650],
@@ -1122,322 +1137,45 @@ const events = [
       }
     },
     date: new Date('2025-12-18'),
-    time: '7:00 PM',
-    duration: '2 hours',
-    ticketTypes: [
-      { type: 'Standing', price: 1000, available: 800 },
-      { type: 'Seated', price: 2000, available: 300 },
-      { type: 'VIP', price: 4500, available: 80 }
-    ],
-    image: 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&q=80',
-    rating: 4.6
-  },
-  {
-    title: 'Shreya Ghoshal Concert',
-    description: 'Melodious evening with playback singing queen',
-    category: 'concert',
-    venue: {
-      name: 'Wankhede Stadium',
-      location: {
-        type: 'Point',
-        coordinates: [72.8258, 18.9388],
-        address: 'D Road, Churchgate, Mumbai'
-      }
-    },
-    date: new Date('2026-01-25'),
-    time: '7:00 PM',
-    duration: '3 hours',
-    ticketTypes: [
-      { type: 'Bronze', price: 1800, available: 500 },
-      { type: 'Silver', price: 3500, available: 250 },
-      { type: 'Gold', price: 6000, available: 120 }
-    ],
-    image: 'https://images.unsplash.com/photo-1445991842772-097fea258e7b?w=800&q=80',
-    rating: 4.8
-  },
-  {
-    title: 'Sunburn Festival 2026',
-    description: 'Asia\'s biggest EDM festival with international DJs',
-    category: 'concert',
-    venue: {
-      name: 'Mahalaxmi Racecourse',
-      location: {
-        type: 'Point',
-        coordinates: [72.8200, 18.9850],
-        address: 'Mahalaxmi, Mumbai'
-      }
-    },
-    date: new Date('2026-02-14'),
-    time: '4:00 PM',
-    duration: '8 hours',
-    ticketTypes: [
-      { type: '1-Day Pass', price: 3500, available: 1000 },
-      { type: 'VIP 1-Day', price: 7000, available: 300 },
-      { type: 'Luxury Box', price: 25000, available: 50 }
-    ],
-    image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80',
-    rating: 4.7
-  },
-  {
-    title: 'Sonu Nigam Live',
-    description: 'Live performance by versatile singer',
-    category: 'concert',
-    venue: {
-      name: 'NSCI Dome',
-      location: {
-        type: 'Point',
-        coordinates: [72.8320, 18.9890],
-        address: 'Worli, Mumbai'
-      }
-    },
-    date: new Date('2025-12-22'),
-    time: '7:30 PM',
-    duration: '2.5 hours',
-    ticketTypes: [
-      { type: 'Standard', price: 1500, available: 400 },
-      { type: 'Premium', price: 3000, available: 150 },
-      { type: 'Royal', price: 5500, available: 70 }
-    ],
-    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80',
-    rating: 4.7
-  },
-  {
-    title: 'Nucleya Live',
-    description: 'Bass music and electronic beats',
-    category: 'concert',
-    venue: {
-      name: 'Bayview Lawns',
-      location: {
-        type: 'Point',
-        coordinates: [72.8150, 18.9750],
-        address: 'Mazgaon, Mumbai'
-      }
-    },
-    date: new Date('2026-01-05'),
     time: '8:00 PM',
-    duration: '3 hours',
+    duration: '4h',
     ticketTypes: [
-      { type: 'Early Bird', price: 1200, available: 500 },
-      { type: 'Regular', price: 1800, available: 300 },
-      { type: 'VIP', price: 3500, available: 100 }
+      { type: 'VIP', price: 500, available: 50 },
+      { type: 'Premium', price: 350, available: 100 },
+      { type: 'Standard', price: 200, available: 200 }
     ],
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80',
-    rating: 4.6
-  },
-  {
-    title: 'Neha Kakkar Live Show',
-    description: 'Energetic performance by pop sensation',
-    category: 'concert',
-    venue: {
-      name: 'MMRDA Grounds',
-      location: {
-        type: 'Point',
-        coordinates: [72.8700, 19.0650],
-        address: 'BKC, Mumbai'
-      }
-    },
-    date: new Date('2026-02-01'),
-    time: '7:00 PM',
-    duration: '2 hours',
-    ticketTypes: [
-      { type: 'General', price: 1000, available: 600 },
-      { type: 'Premium', price: 2200, available: 250 },
-      { type: 'VIP', price: 4000, available: 90 }
-    ],
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
-    rating: 4.5
-  },
-
-  // SPORTS (8)
-  {
-    title: 'IPL 2026: MI vs CSK',
-    description: 'The ultimate cricket rivalry - Mumbai Indians vs Chennai Super Kings',
-    category: 'sports',
-    venue: {
-      name: 'Wankhede Stadium',
-      location: {
-        type: 'Point',
-        coordinates: [72.8258, 18.9388],
-        address: 'D Road, Churchgate, Mumbai'
-      }
-    },
-    date: new Date('2026-04-10'),
-    time: '7:30 PM',
-    duration: '3.5 hours',
-    ticketTypes: [
-      { type: 'General Stand', price: 800, available: 1000 },
-      { type: 'Premium Stand', price: 2000, available: 500 },
-      { type: 'Hospitality Box', price: 10000, available: 50 }
-    ],
-    image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&q=80',
-    rating: 5.0
-  },
-  {
-    title: 'ISL: Mumbai City FC vs ATK Mohun Bagan',
-    description: 'Exciting Indian Super League football match',
-    category: 'sports',
-    venue: {
-      name: 'Mumbai Football Arena',
-      location: {
-        type: 'Point',
-        coordinates: [72.8350, 19.0250],
-        address: 'Andheri Sports Complex, Mumbai'
-      }
-    },
-    date: new Date('2025-12-15'),
-    time: '7:00 PM',
-    duration: '2 hours',
-    ticketTypes: [
-      { type: 'North Stand', price: 400, available: 800 },
-      { type: 'East Stand', price: 700, available: 400 },
-      { type: 'West Stand Premium', price: 1200, available: 200 }
-    ],
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-    rating: 4.5
-  },
-  {
-    title: 'Pro Kabaddi: Mumbai vs Bengal',
-    description: 'High-octane kabaddi action',
-    category: 'sports',
-    venue: {
-      name: 'NSCI Dome',
-      location: {
-        type: 'Point',
-        coordinates: [72.8320, 18.9890],
-        address: 'Worli, Mumbai'
-      }
-    },
-    date: new Date('2025-12-08'),
-    time: '8:00 PM',
-    duration: '2 hours',
-    ticketTypes: [
-      { type: 'Standard', price: 500, available: 500 },
-      { type: 'Premium', price: 1000, available: 250 },
-      { type: 'VIP', price: 2000, available: 100 }
-    ],
-    image: 'https://images.unsplash.com/photo-1530915365347-e35b749a0381?w=800&q=80',
-    rating: 4.6
-  },
-  {
-    title: 'T20 World Cup: India vs Australia',
-    description: 'Epic clash between cricket giants',
-    category: 'sports',
-    venue: {
-      name: 'Wankhede Stadium',
-      location: {
-        type: 'Point',
-        coordinates: [72.8258, 18.9388],
-        address: 'D Road, Churchgate, Mumbai'
-      }
-    },
-    date: new Date('2026-03-15'),
-    time: '7:30 PM',
-    duration: '4 hours',
-    ticketTypes: [
-      { type: 'Popular Stand', price: 1500, available: 800 },
-      { type: 'Premium Stand', price: 3500, available: 400 },
-      { type: 'Corporate Box', price: 15000, available: 40 }
-    ],
-    image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=800&q=80',
-    rating: 5.0
-  },
-  {
-    title: 'WWE Live India Tour',
-    description: 'World wrestling entertainment comes to Mumbai',
-    category: 'sports',
-    venue: {
-      name: 'DY Patil Stadium',
-      location: {
-        type: 'Point',
-        coordinates: [73.0169, 19.0330],
-        address: 'D.Y. Patil Sports Stadium, Navi Mumbai'
-      }
-    },
-    date: new Date('2026-02-20'),
-    time: '6:00 PM',
-    duration: '3 hours',
-    ticketTypes: [
-      { type: 'General', price: 2000, available: 1000 },
-      { type: 'Ringside', price: 5000, available: 300 },
-      { type: 'VIP', price: 10000, available: 100 }
-    ],
-    image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-    rating: 4.8
-  },
-  {
-    title: 'Mumbai Marathon 2026',
-    description: 'Annual marathon through the streets of Mumbai',
-    category: 'sports',
-    venue: {
-      name: 'Gateway of India Start Point',
-      location: {
-        type: 'Point',
-        coordinates: [72.8347, 18.9217],
-        address: 'Colaba, Mumbai'
-      }
-    },
-    date: new Date('2026-01-19'),
-    time: '5:30 AM',
-    duration: '6 hours',
-    ticketTypes: [
-      { type: 'Full Marathon (42km)', price: 1500, available: 3000 },
-      { type: 'Half Marathon (21km)', price: 1000, available: 5000 },
-      { type: '10K Run', price: 500, available: 8000 }
-    ],
-    image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80',
-    rating: 4.7
-  },
-  {
-    title: 'Boxing Night Championship',
-    description: 'Professional boxing matches featuring Indian boxers',
-    category: 'sports',
-    venue: {
-      name: 'NSCI Dome',
-      location: {
-        type: 'Point',
-        coordinates: [72.8320, 18.9890],
-        address: 'Worli, Mumbai'
-      }
-    },
-    date: new Date('2025-12-30'),
-    time: '7:00 PM',
-    duration: '3 hours',
-    ticketTypes: [
-      { type: 'General', price: 800, available: 600 },
-      { type: 'Ringside', price: 2500, available: 200 },
-      { type: 'VIP', price: 5000, available: 80 }
-    ],
-    image: 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=800&q=80',
-    rating: 4.5
-  },
-  {
-    title: 'Premier Badminton League',
-    description: 'Star badminton players in action',
-    category: 'sports',
-    venue: {
-      name: 'CCI Badminton Courts',
-      location: {
-        type: 'Point',
-        coordinates: [72.8280, 18.9310],
-        address: 'Churchgate, Mumbai'
-      }
-    },
-    date: new Date('2026-01-12'),
-    time: '6:00 PM',
-    duration: '2.5 hours',
-    ticketTypes: [
-      { type: 'Standard', price: 600, available: 400 },
-      { type: 'Premium', price: 1200, available: 200 },
-      { type: 'Courtside', price: 2500, available: 80 }
-    ],
-    image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=800&q=80',
     rating: 4.6
   },
 
-  // COMEDY (7)
+  // ===================== COMEDY (5) =====================
   {
-    title: 'Zakir Khan - Chaos Comedy',
-    description: 'Get ready to laugh until your stomach hurts with India\'s favorite comedian',
+    title: 'Stand-Up Comedy Night',
+    description: 'A night full of laughter and fun.',
+    category: 'comedy',
+    venue: {
+      name: 'Comedy Club Mumbai',
+      location: {
+        type: 'Point',
+        coordinates: [72.8235, 18.9260],
+        address: 'Nariman Point, Mumbai'
+      }
+    },
+    date: new Date('2025-11-28'),
+    time: '6:00 PM',
+    duration: '2h',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&q=80',
+    rating: 4.3
+  },
+
+  {
+    title: 'Kapil Sharma Live',
+    description: 'India’s favourite comedian live on stage.',
     category: 'comedy',
     venue: {
       name: 'NCPA Theatre',
@@ -1447,109 +1185,336 @@ const events = [
         address: 'Nariman Point, Mumbai'
       }
     },
-    date: new Date('2025-11-25'),
-    time: '8:00 PM',
-    duration: '2 hours',
+    date: new Date('2025-12-03'),
+    time: '7:00 PM',
+    duration: '2h 30m',
     ticketTypes: [
-      { type: 'Standard', price: 500, available: 200 },
-      { type: 'Premium', price: 800, available: 100 },
-      { type: 'VIP Front Row', price: 1500, available: 30 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=800&q=80',
-    rating: 4.7
-  },
-  {
-    title: 'Kapil Sharma Live',
-    description: 'The king of comedy performs live',
-    category: 'comedy',
-    venue: {
-      name: 'Jio World Garden',
-      location: {
-        type: 'Point',
-        coordinates: [72.8680, 19.0620],
-        address: 'BKC, Mumbai'
-      }
-    },
-    date: new Date('2025-12-12'),
-    time: '7:30 PM',
-    duration: '2.5 hours',
-    ticketTypes: [
-      { type: 'Silver', price: 1000, available: 500 },
-      { type: 'Gold', price: 2000, available: 250 },
-      { type: 'Platinum', price: 3500, available: 100 }
-    ],
-    image: 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?w=800&q=80',
-    rating: 4.8
-  },
-  {
-    title: 'Vir Das World Tour',
-    description: 'International comedian returns to India',
-    category: 'comedy',
-    venue: {
-      name: 'NSCI Dome',
-      location: {
-        type: 'Point',
-        coordinates: [72.8320, 18.9890],
-        address: 'Worli, Mumbai'
-      }
-    },
-    date: new Date('2026-01-20'),
-    time: '8:00 PM',
-    duration: '2 hours',
-    ticketTypes: [
-      { type: 'Regular', price: 1200, available: 400 },
-      { type: 'Premium', price: 2500, available: 200 },
-      { type: 'VIP', price: 4000, available: 80 }
-    ],
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
-    rating: 4.9
-  },
-  {
-    title: 'Biswa Kalyan Rath Stand-up',
-    description: 'Smart comedy with witty observations',
-    category: 'comedy',
-    venue: {
-      name: 'Canvas Laugh Club',
-      location: {
-        type: 'Point',
-        coordinates: [72.8420, 19.0480],
-        address: 'Palladium Mall, Lower Parel'
-      }
-    },
-    date: new Date('2025-12-05'),
-    time: '9:00 PM',
-    duration: '1.5 hours',
-    ticketTypes: [
-      { type: 'General', price: 700, available: 150 },
-      { type: 'Premium', price: 1200, available: 80 }
-    ],
-    image: 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1527224538127-2104bb71c51b?w=800&q=80',
     rating: 4.6
   },
+
   {
-    title: 'Kenny Sebastian - The Most Interesting Person',
-    description: 'Musical comedy special',
+    title: 'Comedy Circus Reunion',
+    description: 'A nostalgic comedy show with legendary performers.',
     category: 'comedy',
     venue: {
       name: 'Prithvi Theatre',
       location: {
         type: 'Point',
-        coordinates: [72.8270, 19.0510],
+        coordinates: [72.8296, 19.1127],
         address: 'Juhu, Mumbai'
       }
     },
-    date: new Date('2025-12-18'),
-    time: '7:00 PM',
-    duration: '2 hours',
+    date: new Date('2025-12-06'),
+    time: '6:30 PM',
+    duration: '2h 15m',
     ticketTypes: [
-      { type: 'Standard', price: 700, available: 180 },
-      { type: 'Premium', price: 1300, available: 90 },
-      { type: 'Front Row', price: 2000, available: 30 }
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
     ],
-    image: 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1516450137517-162bfbeb8dba?w=800&q=80',
+    rating: 4.4
+  },
+
+  {
+    title: 'Open Mic Comedy Night',
+    description: 'Fresh jokes, new comedians, endless laughs.',
+    category: 'comedy',
+    venue: {
+      name: 'Local Comedy Club',
+      location: {
+        type: 'Point',
+        coordinates: [72.8777, 19.0760],
+        address: 'Lower Parel, Mumbai'
+      }
+    },
+    date: new Date('2025-12-09'),
+    time: '8:00 PM',
+    duration: '1h 30m',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1522158637959-30385a09e0da?w=800&q=80',
+    rating: 4.2
+  },
+
+  {
+    title: 'Improv Comedy Show',
+    description: 'Unscripted comedy created live by performers.',
+    category: 'comedy',
+    venue: {
+      name: 'The Habitat',
+      location: {
+        type: 'Point',
+        coordinates: [72.8400, 19.1200],
+        address: 'Khar West, Mumbai'
+      }
+    },
+    date: new Date('2025-12-11'),
+    time: '9:30 PM',
+    duration: '2h',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1513106580091-1d82408b8cd6?w=800&q=80',
+    rating: 4.5
+  },
+
+  // ===================== CONCERTS (5) =====================
+  {
+    title: 'Rock Band Live Concert',
+    description: 'High-energy rock music performed live.',
+    category: 'concert',
+    venue: {
+      name: 'Hard Rock Arena',
+      location: {
+        type: 'Point',
+        coordinates: [72.8500, 19.1000],
+        address: 'Andheri West, Mumbai'
+      }
+    },
+    date: new Date('2025-12-14'),
+    time: '7:00 PM',
+    duration: '3h',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&q=80',
     rating: 4.6
+  },
+
+  {
+    title: 'AR Rahman Live in Concert',
+    description: 'A magical evening with the maestro.',
+    category: 'concert',
+    venue: {
+      name: 'DY Patil Stadium',
+      location: {
+        type: 'Point',
+        coordinates: [73.0169, 19.0330],
+        address: 'Navi Mumbai'
+      }
+    },
+    date: new Date('2025-12-20'),
+    time: '6:30 PM',
+    duration: '3h 30m',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80',
+    rating: 4.9
+  },
+
+  {
+    title: 'EDM Night Festival',
+    description: 'A high-energy electronic dance music festival.',
+    category: 'concert',
+    venue: {
+      name: 'Open Air Arena',
+      location: {
+        type: 'Point',
+        coordinates: [72.8700, 19.0650],
+        address: 'BKC, Mumbai'
+      }
+    },
+    date: new Date('2025-12-21'),
+    time: '8:00 PM',
+    duration: '4h',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&q=80',
+    rating: 4.7
+  },
+
+  {
+    title: 'Classical Music Evening',
+    description: 'A soothing evening of classical performances.',
+    category: 'concert',
+    venue: {
+      name: 'NCPA Auditorium',
+      location: {
+        type: 'Point',
+        coordinates: [72.8235, 18.9260],
+        address: 'Nariman Point, Mumbai'
+      }
+    },
+    date: new Date('2025-12-23'),
+    time: '6:00 PM',
+    duration: '2h 30m',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=800&q=80',
+    rating: 4.6
+  },
+
+  {
+    title: 'Jazz Night Live',
+    description: 'Smooth jazz performed live.',
+    category: 'concert',
+    venue: {
+      name: 'Blue Frog',
+      location: {
+        type: 'Point',
+        coordinates: [72.8800, 19.0750],
+        address: 'Lower Parel, Mumbai'
+      }
+    },
+    date: new Date('2025-12-24'),
+    time: '7:30 PM',
+    duration: '2h',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&q=80',
+    rating: 4.5
+  },
+
+  // ===================== THEATER (5) =====================
+  {
+    title: 'Shakespeare Festival',
+    description: 'Classic Shakespearean plays performed live.',
+    category: 'theater',
+    venue: {
+      name: 'Prithvi Theatre',
+      location: {
+        type: 'Point',
+        coordinates: [72.8296, 19.1127],
+        address: 'Juhu, Mumbai'
+      }
+    },
+    date: new Date('2025-12-26'),
+    time: '5:00 PM',
+    duration: '2h 30m',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1503095396549-807759245b35?w=800&q=80',
+    rating: 4.4
+  },
+
+  {
+    title: 'The Phantom of the Opera',
+    description: 'A legendary musical theatre performance.',
+    category: 'theater',
+    venue: {
+      name: 'NCPA Theatre',
+      location: {
+        type: 'Point',
+        coordinates: [72.8235, 18.9260],
+        address: 'Nariman Point, Mumbai'
+      }
+    },
+    date: new Date('2025-12-27'),
+    time: '7:00 PM',
+    duration: '2h 45m',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
+    rating: 4.8
+  },
+
+  {
+    title: 'Mughal-e-Azam Musical',
+    description: 'A grand Indian musical theatre spectacle.',
+    category: 'theater',
+    venue: {
+      name: 'NMACC',
+      location: {
+        type: 'Point',
+        coordinates: [72.8700, 19.0650],
+        address: 'BKC, Mumbai'
+      }
+    },
+    date: new Date('2025-12-28'),
+    time: '6:00 PM',
+    duration: '3h',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5xeLCLjacys110u-PjR9ghsrKRTwfyhGq9w&s',
+    rating: 4.7
+  },
+
+  {
+    title: 'Modern Dance Theatre',
+    description: 'A contemporary dance storytelling performance.',
+    category: 'theater',
+    venue: {
+      name: 'Experimental Theatre',
+      location: {
+        type: 'Point',
+        coordinates: [72.8350, 19.0250],
+        address: 'Andheri, Mumbai'
+      }
+    },
+    date: new Date('2025-12-29'),
+    time: '5:30 PM',
+    duration: '1h 45m',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=800&q=80',
+    rating: 4.6
+  },
+
+  {
+    title: 'Comedy Play: The Proposal',
+    description: 'A hilarious stage comedy play.',
+    category: 'theater',
+    venue: {
+      name: 'Drama Theatre',
+      location: {
+        type: 'Point',
+        coordinates: [72.8400, 19.1200],
+        address: 'Khar West, Mumbai'
+      }
+    },
+    date: new Date('2025-12-30'),
+    time: '6:00 PM',
+    duration: '2h',
+    ticketTypes: [
+      { type: 'Economy', price: 150, available: 100 },
+      { type: 'Silver', price: 200, available: 60 },
+      { type: 'Platinum', price: 300, available: 40 }
+    ],
+    image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&q=80',
+    rating: 4.3
   }
+
 ];
+
+module.exports = events;
+
 
 const seedData = async () => {
   try {
@@ -1557,9 +1522,11 @@ const seedData = async () => {
     await mongoose.connect(mongoUri);
     console.log('✅ Connected to MongoDB');
 
-    // Clear existing data
+    // Clear ALL existing data
     await Vehicle.deleteMany({});
-    console.log('🗑️ Cleared existing vehicles');
+    await Restaurant.deleteMany({});
+    await Event.deleteMany({}); // ✅ Clear events
+    console.log('🗑️ Cleared existing data');
 
     // Insert vehicles
     const seededVehicles = await Vehicle.insertMany(vehicles);
@@ -1568,20 +1535,32 @@ const seedData = async () => {
     console.log(`   🚗 ${seededVehicles.filter(v => v.type === 'car').length} Cars`);
     console.log(`   🚙 ${seededVehicles.filter(v => v.type === 'suv').length} SUVs`);
 
-    // Seed restaurants if data exists
+    // Insert restaurants
     if (restaurants.length > 0) {
-      await Restaurant.deleteMany({});
       const savedRestaurants = await Restaurant.insertMany(restaurants);
       console.log(`✅ Seeded ${savedRestaurants.length} restaurants`);
     }
 
+    // ✅ INSERT EVENTS
+    if (events.length > 0) {
+      const savedEvents = await Event.insertMany(events);
+      console.log(`✅ Seeded ${savedEvents.length} events!`);
+      console.log(`   🎬 ${savedEvents.filter(e => e.category === 'movie').length} Movies`);
+      console.log(`   🎤 ${savedEvents.filter(e => e.category === 'concert').length} Concerts`);
+      console.log(`   ⚽ ${savedEvents.filter(e => e.category === 'sports').length} Sports`);
+      console.log(`   😂 ${savedEvents.filter(e => e.category === 'comedy').length} Comedy`);
+      console.log(`   🎭 ${savedEvents.filter(e => e.category === 'theater').length} Theater`);
+    }
+
     await mongoose.connection.close();
     console.log('\n✅ Database seeded successfully!');
+    console.log('🚀 Food, Transport, AND Entertainment ready!');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error seeding database:', error.message);
     process.exit(1);
   }
 };
+
 
 seedData();

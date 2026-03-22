@@ -24,4 +24,3 @@ const Button = forwardRef(({ className, variant = 'primary', ...props }, ref) =>
 Button.displayName = 'Button'
 
 export default Button
-

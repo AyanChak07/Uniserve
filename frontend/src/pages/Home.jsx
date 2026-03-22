@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Car, UtensilsCrossed, Ticket, ArrowRight, Clock, Shield, Star, Zap, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import { HomeIcon, Car, UtensilsCrossed, Ticket, ArrowRight, Clock, Shield, Star, Zap, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 
 const Home = () => {
   const services = [
@@ -23,6 +23,20 @@ const Home = () => {
       description: 'Book tickets for movies, concerts, sports events, and comedy shows',
       gradient: 'from-purple-500 to-pink-500',
       link: '/entertainment',
+    },
+    {
+      icon: Shield,
+      title: 'Medical',
+      description: 'Book doctor appointments with trusted healthcare professionals',
+      gradient: 'from-green-500 to-emerald-600',
+      link: '/medical',
+    },
+    {
+      icon: HomeIcon,
+      title: 'Household',
+      description: 'Book trusted professionals for cleaning, repair, and maintenance',
+      gradient: 'from-pink-500 to-violet-600',
+      link: '/household',
     },
   ]
 
@@ -131,36 +145,6 @@ const Home = () => {
               </Link>
             ))}
           </div>
-
-          {/* Additional Services Coming Soon */}
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl shadow-md p-8 border-2 border-dashed border-green-200">
-              <div className="bg-green-100 w-20 h-20 rounded-2xl flex items-center justify-center mb-6">
-                <span className="text-4xl">🏥</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Medical</h3>
-              <p className="text-gray-600 mb-4">Book appointments with doctors</p>
-              <span className="badge bg-green-100 text-green-700">Coming Soon</span>
-            </div>
-
-            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-3xl shadow-md p-8 border-2 border-dashed border-yellow-200">
-              <div className="bg-yellow-100 w-20 h-20 rounded-2xl flex items-center justify-center mb-6">
-                <span className="text-4xl">🏠</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Household Help</h3>
-              <p className="text-gray-600 mb-4">Professional cleaning services</p>
-              <span className="badge bg-yellow-100 text-yellow-700">Coming Soon</span>
-            </div>
-
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl shadow-md p-8 border-2 border-dashed border-blue-200">
-              <div className="bg-blue-100 w-20 h-20 rounded-2xl flex items-center justify-center mb-6">
-                <span className="text-4xl">🛍️</span>
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Shopping</h3>
-              <p className="text-gray-600 mb-4">Doorstep delivery of essentials</p>
-              <span className="badge bg-blue-100 text-blue-700">Coming Soon</span>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -245,9 +229,8 @@ const Home = () => {
                 <li><Link to="/transport" className="text-gray-400 hover:text-white transition-colors">Transport</Link></li>
                 <li><Link to="/food" className="text-gray-400 hover:text-white transition-colors">Food Delivery</Link></li>
                 <li><Link to="/entertainment" className="text-gray-400 hover:text-white transition-colors">Entertainment</Link></li>
-                <li><span className="text-gray-500">Medical (Coming Soon)</span></li>
-                <li><span className="text-gray-500">Household (Coming Soon)</span></li>
-                <li><span className="text-gray-500">Shopping (Coming Soon)</span></li>
+                <li><Link to="/medical" className="text-gray-400 hover:text-white transition-colors">Medical</Link></li>
+                <li><Link to="/household" className="text-gray-400 hover:text-white transition-colors">Household</Link></li>
               </ul>
             </div>
 

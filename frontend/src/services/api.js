@@ -58,4 +58,24 @@ export const entertainmentAPI = {
   updatePayment: (id, data) => api.put(`/entertainment/tickets/${id}/payment`, data),
 }
 
+export const medicalAPI = {
+  getUserAppointments: () => api.get('/medical/appointments'),
+  cancelAppointment: (id) => api.put(`/medical/appointments/${id}/cancel`),
+  rescheduleAppointment: (id, data) => api.put(`/medical/appointments/${id}/reschedule`, data),
+  getDoctorAvailability: (doctorId, date) =>
+    api.get(`/medical/doctors/${doctorId}/availability`, {
+      params: { date },
+    }),
+};
+
+// ✅ Household (NEW)
+export const householdAPI = {
+  getUserBookings: () => api.get('/household/bookings'),
+  cancelBooking: (id) => api.put(`/household/bookings/${id}/cancel`),
+  rescheduleBooking: (id, data) =>
+    api.put(`/household/bookings/${id}/reschedule`, data),
+  rebookService: (id, data) =>
+    api.post(`/household/bookings/${id}/rebook`, data),
+}
+
 export default api
