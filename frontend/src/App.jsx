@@ -21,6 +21,7 @@ import HouseholdServices from "./pages/HouseholdServices";
 import HouseholdMap from "./pages/HouseholdMap";
 import HouseholdDetails from "./pages/HouseholdDetails";
 import MyHouseholdBookings from "./pages/MyHouseholdBookings";
+import ChatWidget from './components/ChatWidget'
 
 
 function App() {
@@ -93,6 +94,7 @@ function App() {
             />
 
           </Routes>
+          <ChatWidget />
         </div>
       </Router>
     </AuthProvider>
