@@ -49,7 +49,7 @@ Optional extra line if needed
 
 OUTPUT RESTRICTIONS:
 
-- Do NOT include separators like "====="
+- Do NOT include separators like "======"
 - Do NOT include section titles in responses
 - Only return the final answer
 
