@@ -4,10 +4,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
-const householdRoutes = require("./routes/householdRoutes");
 const connectDB = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
-const chatRoutes = require('./routes/chatRoutes')
 
 // Load env vars
 dotenv.config();
@@ -31,8 +29,7 @@ app.use('/api/food', require('./routes/foodRoutes'));
 app.use('/api/entertainment', require('./routes/entertainmentRoutes'));
 app.use('/api/medical', require('./routes/medicalRoutes'));
 app.use("/api/household", require("./routes/householdRoutes"));
-app.use("/api/chat", chatRoutes)
-
+app.use('/api/chat', require('./routes/chatRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
